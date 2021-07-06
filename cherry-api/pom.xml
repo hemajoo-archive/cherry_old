@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright(c) 2021 Hemajoo Systems Inc.
+  ~ --------------------------------------------------------------------------------------
+  ~ This file is part of Hemajoo Systems Inc. projects which is licensed
+  ~ under the Apache license version 2 and use is subject to license terms.
+  ~ You should have received a copy of the license with the project's artifact
+  ~ binaries and/or sources.
+  ~
+  ~ License can be consulted at http://www.apache.org/licenses/LICENSE-2.0
+  ~ --------------------------------------------------------------------------------------
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>cherry-parent</artifactId>
+        <groupId>com.hemajoo.commerce.cherry</groupId>
+        <version>0.1.0-SNAPSHOT</version>
+        <relativePath>../cherry-parent/pom.xml</relativePath>
+    </parent>
+
+    <artifactId>cherry-api</artifactId>
+
+    <name>cherry-api</name>
+    <description>Cherry - REST APIs controllers.</description>
+
+    <properties>
+        <flyway.user></flyway.user>
+        <flyway.password></flyway.password>
+        <flyway.schemas>DEV</flyway.schemas>
+        <flyway.url>jdbc:h2:tcp://localhost:9092/cherry;DB_CLOSE_ON_EXIT=FALSE</flyway.url>
+        <flyway.locations>filesystem:../cherry-persistence/src/main/resources/db/migration/h2</flyway.locations>
+    </properties>
+
+    <dependencies>
+
+        <!-- Lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
+        <!-- Spring Boot dependencies -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <!-- Allow to expose JPA repositories as REST controllers -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-rest</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.paulcwarren</groupId>
+            <artifactId>spring-content-rest-boot-starter</artifactId>
+            <version>1.2.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-boot-starter</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+
+        <!-- Database: H2 -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- Hemajoo Cherry: Common -->
+        <dependency>
+            <groupId>com.hemajoo.commerce.cherry</groupId>
+            <artifactId>cherry-commons</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- Hemajoo Cherry: Data Model -->
+        <dependency>
+            <groupId>com.hemajoo.commerce.cherry</groupId>
+            <artifactId>cherry-model</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- Hemajoo Cherry: Persistence -->
+        <dependency>
+            <groupId>com.hemajoo.commerce.cherry</groupId>
+            <artifactId>cherry-persistence</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- ResseC Avocado -->
+        <dependency>
+            <groupId>org.ressec.avocado</groupId>
+            <artifactId>avocado-core</artifactId>
+        </dependency>
+
+        <!-- Bean mapper: MapStruct -->
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-processor</artifactId>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- FLYWAY: Database migration (https://flywaydb.org/documentation/usage/maven/) -->
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>${version.maven.plugin.flyway}</version>
+                <configuration>
+                    <user>${flyway.user}</user>
+                    <password>${flyway.password}</password>
+                    <schemas>
+                        <schema>${flyway.schemas}</schema>
+                    </schemas>
+                    <url>${flyway.url}</url>
+                    <locations>${flyway.locations}</locations>
+                </configuration>
+            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.jacoco</groupId>-->
+<!--                <artifactId>jacoco-maven-plugin</artifactId>-->
+<!--                <version>${version.maven.plugin.jacoco}</version>-->
+<!--                <executions>-->
+<!--                    &lt;!&ndash; to avoid bugs in some situations &ndash;&gt;-->
+<!--                    <execution>-->
+<!--                        <id>prepare-agent</id>-->
+<!--                        <goals>-->
+<!--                            <goal>prepare-agent</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                    &lt;!&ndash; create report during maven verify phase &ndash;&gt;-->
+<!--                    <execution>-->
+<!--                        <id>report</id>-->
+<!--                        <phase>verify</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>report</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
+        </plugins>
+    </build>
+
+</project>
