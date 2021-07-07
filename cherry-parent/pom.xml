@@ -53,6 +53,11 @@
         <project.directory.log>${basedir}/log</project.directory.log>
         <project.directory.db>${basedir}/db</project.directory.db>
 
+        <!-- SonarCloud properties -->
+        <sonar.projectKey>hemajoo_cherry</sonar.projectKey>
+        <sonar.organization>hemajoo</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+
         <!-- Plugin version properties -->
         <version.maven.plugin.compiler>3.8.1</version.maven.plugin.compiler>
         <version.maven.plugin.jar>3.1.2</version.maven.plugin.jar>
