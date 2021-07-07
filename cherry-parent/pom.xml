@@ -185,6 +185,13 @@
                 <scope>import</scope>
             </dependency>
 
+            <!-- Swagger -->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-boot-starter</artifactId>
+                <version>${version.swagger}</version>
+            </dependency>
+
             <!-- Bean mapper: MapStruct -->
             <dependency>
                 <groupId>org.mapstruct</groupId>
