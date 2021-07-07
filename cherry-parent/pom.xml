@@ -55,6 +55,7 @@
 
         <!-- SonarCloud properties -->
         <sonar.projectKey>hemajoo_cherry</sonar.projectKey>
+        <sonar.moduleKey>${artifactId}</sonar.moduleKey>
         <sonar.organization>hemajoo</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
 
