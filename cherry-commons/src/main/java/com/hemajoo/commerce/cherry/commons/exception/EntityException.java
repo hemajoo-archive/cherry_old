@@ -27,13 +27,13 @@ public class EntityException extends AbstractCheckedException
      * Http status.
      */
     @Getter
-    private HttpStatus status;
+    private final HttpStatus status;
 
     /**
      * Underlying entity type.
      */
     @Getter
-    private EntityType entityType;
+    private final EntityType entityType;
 
     /**
      * Default serialization identifier.

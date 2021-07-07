@@ -21,7 +21,6 @@
         <flyway.schemas>TEST</flyway.schemas>
         <flyway.url>jdbc:h2:file:./target/cherry;DB_CLOSE_ON_EXIT=FALSE</flyway.url>
         <flyway.locations>classpath:/db/migration/h2</flyway.locations>
-        <!--        <flyway.locations>filesystem:./db/migration/h2</flyway.locations>-->
     </properties>
 
     <dependencies>
