@@ -27,6 +27,7 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    if: github.ref != 'refs/heads/main' && github.ref != 'refs/heads/dev'
     steps:
       - uses: actions/checkout@v2
         with:
@@ -49,5 +50,4 @@ jobs:
 
       # Step: Maven Clean & Package
       - name: Package with Maven
-        if: github.ref != 'refs/heads/main' && github.ref != 'refs/heads/dev'
         run: mvn -B clean package -f cherry-parent/pom.xml
