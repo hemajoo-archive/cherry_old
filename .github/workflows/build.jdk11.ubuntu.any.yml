@@ -33,11 +33,10 @@ jobs:
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
 
-      # Step: Echo
-      - name: Echo
-        run: |
-          echo "github.base_ref: " github.base_ref
-          echo "github.ref: " github.ref
+      - name: Dump GitHub context
+        env:
+            GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
 
       # Step: Setup JDK 11
       - name: Set up JDK 11
