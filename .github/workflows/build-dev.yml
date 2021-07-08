@@ -9,14 +9,17 @@
 # License can be consulted at http://www.apache.org/licenses/LICENSE-2.0
 # --------------------------------------------------------------------------------------
 #
-# Note: This Github action is triggered on any branch when a push is done expect the 'main' and 'dev' branches to build
-# the project using Maven.
+# Note: This Github action is triggered when code is pushed to the 'dev' branch to:
+# - build
+# - analyse for code quality
 #
 name: Java CI with Maven using JDK 11 on Ubuntu
 
 on:
   push:
-    branches: [!main, !dev]
+    branches: [dev]
+  pull_request:
+    types: [opened, synchronize, reopened]
 
 jobs:
 
@@ -36,6 +39,14 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
 
+      # Step - Cache Sonar packages
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
       # Step: Cache Maven packages
       - name: Cache Maven packages
         uses: actions/cache@v1
@@ -47,3 +58,10 @@ jobs:
       # Step: Maven Clean & Package
       - name: Package with Maven
         run: mvn -B clean package -f cherry-parent/pom.xml
+
+      # Step - Maven Verify for Sonar
+      - name: Build & Analyze with SonarCloud
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any.
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -f cherry-parent/pom.xml
