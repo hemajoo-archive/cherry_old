@@ -100,7 +100,7 @@
         <repository>
             <id>github</id> <!-- This repository id should match a server entry in the servers section of the settings.xml file. -->
             <name>GitHub ResseC - Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/ressec/cherry</url>
+            <url>https://maven.pkg.github.com/hemajoo/cherry</url>
         </repository>
 
 <!--        <repository>-->

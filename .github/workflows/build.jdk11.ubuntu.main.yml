@@ -17,7 +17,8 @@ name: main.maven.jdk11.ubuntu
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   pull_request:
     branches:
       - main
@@ -29,6 +30,8 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    #if: github.base.ref == 'refs/heads/main' # Only when target branch is: 'main'.
+    #if: github.event.pull_request.base.ref == 'main'
     steps:
       - uses: actions/checkout@v2
         with:
@@ -72,7 +75,9 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' # Only when pushed to 'main' branch.
+    permissions:
+      contents: read
+      packages: write
     needs: build
     steps:
       - uses: actions/checkout@v2
@@ -85,14 +90,6 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
-
-      # Step: Cache Maven packages
-      - name: Cache Maven packages
-        uses: actions/cache@v1
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
 
       # Step: Maven Deploy
       - name: Deploy to Github Packages with Maven
