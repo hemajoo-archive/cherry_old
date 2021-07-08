@@ -20,6 +20,7 @@ on:
       - '*'
       - '!main'
       - '!dev'
+
 jobs:
 
   # Job: Build project
@@ -48,4 +49,5 @@ jobs:
 
       # Step: Maven Clean & Package
       - name: Package with Maven
+        if: github.ref != 'refs/heads/main' && github.ref != 'refs/heads/dev'
         run: mvn -B clean package -f cherry-parent/pom.xml
