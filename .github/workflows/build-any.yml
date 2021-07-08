@@ -16,8 +16,10 @@ name: Java CI with Maven using JDK 11 on Ubuntu
 
 on:
   push:
-    branches: [!main, !dev]
-
+    branches:
+      - '*'
+      - '!main'
+      - '!dev'
 jobs:
 
   # Job: Build project
