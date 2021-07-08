@@ -29,7 +29,8 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
-    if: github.base.ref == 'refs/heads/dev' # Only when target branch is: 'dev'.
+    #if: github.base.ref == 'refs/heads/dev' # Only when target branch is: 'dev'.
+    if: github.event.pull_request.base.ref == 'dev'
     steps:
       - uses: actions/checkout@v2
         with:
