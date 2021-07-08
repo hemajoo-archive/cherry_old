@@ -4,11 +4,9 @@
 name: Java CI with Maven
 
 on:
-  # Trigger the workflow on push or pull request, but only for the main and dev branches.
-  push:
-    branches: [main, dev]
+  # Trigger the workflow on pull request only for the main branch.
   pull_request:
-    branches: [main, dev]
+    branches: [main]
 
 jobs:
   build:
@@ -20,5 +18,7 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
-      - name: Build (package) with Maven
-        run: mvn -B package -f cherry-parent/pom.xml
+      - name: Deploy to Github Packages with Maven
+        run: mvn --batch-mode deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
