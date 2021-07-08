@@ -18,10 +18,10 @@ name: dev.maven.jdk11.ubuntu
 on:
   push:
     branches: [dev]
-  pull_request:
-    branches:
-      - dev
-    types: [opened, synchronize, reopened]
+#  pull_request:
+#    branches:
+#      - dev
+#    types: [opened, synchronize, reopened]
 
 jobs:
 
