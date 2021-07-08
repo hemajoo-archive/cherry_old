@@ -22,7 +22,7 @@ on:
   pull_request:
     branches:
       - main
-    types: [opened, synchronize, reopened]
+    types: [closed]
 
 jobs:
 
@@ -31,6 +31,7 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     #if: github.base.ref == 'refs/heads/main' # Only when target branch is: 'main'.
+    if: github.event.pull_request.base.ref == 'main'
     steps:
       - uses: actions/checkout@v2
         with:
@@ -74,6 +75,8 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
+    #if: github.base.ref == 'refs/heads/main' # Only when target branch is: 'main'.
+    if: github.event.pull_request.base.ref == 'main'
     needs: build
     steps:
       - uses: actions/checkout@v2
