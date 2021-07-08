@@ -17,6 +17,7 @@ name: any.maven.jdk11.ubuntu
 on:
   push:
     branches:
+      - '*'
       - '!main'
       - '!dev'
 
