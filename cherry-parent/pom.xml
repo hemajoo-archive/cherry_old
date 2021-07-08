@@ -55,7 +55,7 @@
 
         <!-- SonarCloud properties -->
         <sonar.projectKey>hemajoo_cherry</sonar.projectKey>
-        <sonar.moduleKey>${artifactId}</sonar.moduleKey>
+        <sonar.moduleKey>${project.artifactId}</sonar.moduleKey>
         <sonar.organization>hemajoo</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
 
@@ -98,16 +98,20 @@
     <distributionManagement>
 
         <repository>
-            <!-- This repository id should match a server entry in the servers section of the settings.xml file. -->
-            <id>gitlab-public</id>
-            <url>https://gitlab.com/api/v4/projects/22245088/packages/maven</url>
+            <id>github</id> <!-- This repository id should match a server entry in the servers section of the settings.xml file. -->
+            <name>GitHub ResseC - Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/ressec/cherry</url>
         </repository>
 
-        <snapshotRepository>
-            <!-- This repository id should match a server entry in the servers section of the settings.xml file. -->
-            <id>gitlab-public</id>
-            <url>https://gitlab.com/api/v4/projects/22245088/packages/maven</url>
-        </snapshotRepository>
+<!--        <repository>-->
+<!--            <id>gitlab-public</id> &lt;!&ndash; This repository id should match a server entry in the servers section of the settings.xml file. &ndash;&gt;-->
+<!--            <url>https://gitlab.com/api/v4/projects/22245088/packages/maven</url>-->
+<!--        </repository>-->
+
+<!--        <snapshotRepository>-->
+<!--            <id>gitlab-public</id> &lt;!&ndash; This repository id should match a server entry in the servers section of the settings.xml file. &ndash;&gt;-->
+<!--            <url>https://gitlab.com/api/v4/projects/22245088/packages/maven</url>-->
+<!--        </snapshotRepository>-->
 
     </distributionManagement>
 
