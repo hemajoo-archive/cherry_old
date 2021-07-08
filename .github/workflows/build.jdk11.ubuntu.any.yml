@@ -12,7 +12,7 @@
 # Note: This Github action is triggered on any branch when a push is done expect the 'main' and 'dev' branches to build
 # the project using Maven.
 #
-name: Java CI with Maven using JDK 11 on Ubuntu
+name: any.maven.jdk11.ubuntu
 
 on:
   push:

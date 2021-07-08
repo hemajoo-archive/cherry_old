@@ -9,15 +9,15 @@
 # License can be consulted at http://www.apache.org/licenses/LICENSE-2.0
 # --------------------------------------------------------------------------------------
 #
-# Note: This Github action is triggered when code is pushed to the 'dev' branch to:
+# Note: This Github action is triggered when code is pushed to the 'main' branch to:
 # - build
 # - analyse for code quality
 #
-name: Java CI with Maven using JDK 11 on Ubuntu
+name: main.maven.jdk11.ubuntu
 
 on:
   push:
-    branches: [dev]
+    branches: [main]
   pull_request:
     types: [opened, synchronize, reopened]
 
@@ -65,3 +65,35 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any.
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -f cherry-parent/pom.xml
+
+  # Job: Deploy artifacts to Github Packages
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' # Only when pushed to 'main' branch.
+    needs: build
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+
+      # Step: Setup JDK 11
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+
+      # Step: Cache Maven packages
+      - name: Cache Maven packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      # Step: Maven Deploy
+      - name: Deploy to Github Packages with Maven
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: mvn --batch-mode deploy -f cherry-parent/pom.xml
