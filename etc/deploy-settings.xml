@@ -36,6 +36,13 @@
             <password>${CI_DEPLOY_GITLAB_PRIVATE_PASSWORD}</password>
         </server>
 
+        <!-- Github -->
+        <server>
+            <id>github</id>
+            <username>${CI_DEPLOY_GITHUB_USERNAME}</username>
+            <password>${CI_DEPLOY_GITHUB_PASSWORD}</password>
+        </server>
+
     </servers>
 
 </settings>
