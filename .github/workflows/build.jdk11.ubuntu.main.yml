@@ -17,7 +17,8 @@ name: main.maven.jdk11.ubuntu
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   pull_request:
     branches:
       - main
@@ -29,7 +30,8 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
-    if: github.base.ref == 'refs/heads/main' # Only when target branch is: 'main'.
+    #if: github.base.ref == 'refs/heads/main' # Only when target branch is: 'main'.
+    #if: github.event.pull_request.base.ref == 'main'
     steps:
       - uses: actions/checkout@v2
         with:
@@ -73,6 +75,9 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     needs: build
     steps:
       - uses: actions/checkout@v2
@@ -86,18 +91,8 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
 
-      # Step: Cache Maven packages
-      - name: Cache Maven packages
-        uses: actions/cache@v1
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
-
       # Step: Maven Deploy
       - name: Deploy to Github Packages with Maven
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          cp etc/deploy-settings.xml ~/.m2/settings.xml
-          mvn --batch-mode deploy -f cherry-parent/pom.xml
+        run: mvn --batch-mode deploy -f cherry-parent/pom.xml
