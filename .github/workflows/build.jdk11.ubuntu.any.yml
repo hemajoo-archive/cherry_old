@@ -16,10 +16,13 @@ name: any.maven.jdk11.ubuntu
 
 on:
   push:
-    branches:
-      - '*'
-      - '!main'
-      - '!dev'
+    branches-ignore:
+      - main
+      - dev
+  pull_request:
+    branches-ignore:
+      - main
+      - dev
 
 jobs:
 
