@@ -1,5 +1,5 @@
 /*
- * Copyright(c) 2021 Hemajoo Systems Inc.
+ * Copyright(c) 2021 Hemajoo Digital Systems Inc.
  * --------------------------------------------------------------------------------------
  * This file is part of Hemajoo Systems Inc. projects which is licensed
  * under the Apache license version 2 and use is subject to license terms.
