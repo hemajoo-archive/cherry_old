@@ -42,6 +42,8 @@ public final class DocumentRandomizer extends BaseEntityRandomizer
         var entity = new DocumentEntity();
         BaseEntityRandomizer.populateBaseFields(entity);
 
+        entity.setName(FAKER.name().title());
+        entity.setContentPath(FAKER.funnyName().name());
         entity.setExtension(FAKER.file().extension());
         entity.setContentId(UUID.randomUUID().toString());
         entity.setContentLength(new Random().nextLong());
@@ -61,6 +63,8 @@ public final class DocumentRandomizer extends BaseEntityRandomizer
         var entity = new Document();
         BaseEntityRandomizer.populateBaseFields(entity);
 
+        entity.setName(FAKER.name().title());
+        entity.setContentPath(FAKER.funnyName().name());
         entity.setExtension(FAKER.file().extension());
         entity.setContentId(UUID.randomUUID().toString());
         entity.setContentLength(new Random().nextLong());

@@ -26,21 +26,61 @@ public abstract class BaseMapperUnitTest extends BaseUnitTest
 {
     /**
      * Checks equality of base fields.
-     * @param dbEntity Base persistent entity.
-     * @param entity Base client entity.
+     * @param persistent Base persistent entity.
+     * @param client Base client entity.
      */
-    protected void checkBaseFields(final @NonNull BaseEntity dbEntity, final @NonNull Base entity)
+    protected void checkBaseFields(final @NonNull BaseEntity persistent, final @NonNull Base client)
     {
-        Assertions.assertEquals(dbEntity.getId(), entity.getId());
-        Assertions.assertEquals(dbEntity.getCreatedBy(), entity.getCreatedBy());
-        Assertions.assertEquals(dbEntity.getCreatedDate(), entity.getCreatedDate());
-        Assertions.assertEquals(dbEntity.getModifiedBy(), entity.getModifiedBy());
-        Assertions.assertEquals(dbEntity.getModifiedDate(), entity.getModifiedDate());
-        Assertions.assertEquals(dbEntity.getStatusType(), entity.getStatusType());
-        Assertions.assertEquals(dbEntity.getSince(), entity.getSince());
-        Assertions.assertEquals(dbEntity.getEntityType(), entity.getEntityType());
-        Assertions.assertEquals(dbEntity.getDescription(), entity.getDescription());
-        Assertions.assertEquals(dbEntity.getReference(), entity.getReference());
-        Assertions.assertEquals(dbEntity.getName(), entity.getName());
+        Assertions.assertEquals(persistent.getId(), client.getId());
+        Assertions.assertEquals(persistent.getCreatedBy(), client.getCreatedBy());
+        Assertions.assertEquals(persistent.getCreatedDate(), client.getCreatedDate());
+        Assertions.assertEquals(persistent.getModifiedBy(), client.getModifiedBy());
+        Assertions.assertEquals(persistent.getModifiedDate(), client.getModifiedDate());
+        Assertions.assertEquals(persistent.getStatusType(), client.getStatusType());
+        Assertions.assertEquals(persistent.getSince(), client.getSince());
+        Assertions.assertEquals(persistent.getEntityType(), client.getEntityType());
+        Assertions.assertEquals(persistent.getDescription(), client.getDescription());
+        Assertions.assertEquals(persistent.getReference(), client.getReference());
+        Assertions.assertEquals(persistent.getName(), client.getName());
+    }
+
+    /**
+     * Checks equality of base fields.
+     * @param persistent Base persistent entity.
+     * @param copy Base persistent entity.
+     */
+    protected void checkBaseFields(final @NonNull BaseEntity persistent, final @NonNull BaseEntity copy)
+    {
+        Assertions.assertEquals(persistent.getId(), copy.getId());
+        Assertions.assertEquals(persistent.getCreatedBy(), copy.getCreatedBy());
+        Assertions.assertEquals(persistent.getCreatedDate(), copy.getCreatedDate());
+        Assertions.assertEquals(persistent.getModifiedBy(), copy.getModifiedBy());
+        Assertions.assertEquals(persistent.getModifiedDate(), copy.getModifiedDate());
+        Assertions.assertEquals(persistent.getStatusType(), copy.getStatusType());
+        Assertions.assertEquals(persistent.getSince(), copy.getSince());
+        Assertions.assertEquals(persistent.getEntityType(), copy.getEntityType());
+        Assertions.assertEquals(persistent.getDescription(), copy.getDescription());
+        Assertions.assertEquals(persistent.getReference(), copy.getReference());
+        Assertions.assertEquals(persistent.getName(), copy.getName());
+    }
+
+    /**
+     * Checks equality of base fields.
+     * @param client Base client entity.
+     * @param copy Base client entity.
+     */
+    protected void checkBaseFields(final @NonNull Base client, final @NonNull Base copy)
+    {
+        Assertions.assertEquals(client.getId(), copy.getId());
+        Assertions.assertEquals(client.getCreatedBy(), copy.getCreatedBy());
+        Assertions.assertEquals(client.getCreatedDate(), copy.getCreatedDate());
+        Assertions.assertEquals(client.getModifiedBy(), copy.getModifiedBy());
+        Assertions.assertEquals(client.getModifiedDate(), copy.getModifiedDate());
+        Assertions.assertEquals(client.getStatusType(), copy.getStatusType());
+        Assertions.assertEquals(client.getSince(), copy.getSince());
+        Assertions.assertEquals(client.getEntityType(), copy.getEntityType());
+        Assertions.assertEquals(client.getDescription(), copy.getDescription());
+        Assertions.assertEquals(client.getReference(), copy.getReference());
+        Assertions.assertEquals(client.getName(), copy.getName());
     }
 }

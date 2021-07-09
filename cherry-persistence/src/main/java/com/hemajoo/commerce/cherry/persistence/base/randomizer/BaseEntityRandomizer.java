@@ -20,6 +20,7 @@ import org.ressec.avocado.core.random.EnumRandomGenerator;
 
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -55,6 +56,12 @@ public abstract class BaseEntityRandomizer
      */
     public static void populateBaseFields(final @NonNull BaseEntity parent)
     {
+        if (parent.getId() == null)
+        {
+            parent.setId(UUID.randomUUID());
+        }
+        parent.setDescription(FAKER.hitchhikersGuideToTheGalaxy().marvinQuote());
+        parent.setReference(FAKER.ancient().hero());
         parent.setStatusType((StatusType) STATUS_TYPE_GENERATOR.gen());
         parent.setCreatedBy(FAKER.name().name());
         parent.setCreatedDate(FAKER.date().past(100, TimeUnit.DAYS)); // Created in the previous 100 days
@@ -68,6 +75,12 @@ public abstract class BaseEntityRandomizer
      */
     public static void populateBaseFields(final @NonNull Base parent)
     {
+        if (parent.getId() == null)
+        {
+            parent.setId(UUID.randomUUID());
+        }
+        parent.setDescription(FAKER.hitchhikersGuideToTheGalaxy().marvinQuote());
+        parent.setReference(FAKER.ancient().hero());
         parent.setStatusType((StatusType) STATUS_TYPE_GENERATOR.gen());
         parent.setCreatedBy(FAKER.name().name());
         parent.setCreatedDate(FAKER.date().past(100, TimeUnit.DAYS)); // Created in the previous 100 days

@@ -35,7 +35,7 @@ import java.io.IOException;
  */
 @EqualsAndHashCode(callSuper = true)
 @ToString
-@NoArgsConstructor
+//@NoArgsConstructor
 @Table(name = "DOCUMENT")
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -129,6 +129,14 @@ public class DocumentEntity extends BaseEntity
     @Setter
     @ManyToOne(targetEntity = BaseEntity.class, fetch = FetchType.EAGER)
     private BaseEntity owner;
+
+    /**
+     * Creates a new document.
+     */
+    public DocumentEntity()
+    {
+        super(EntityType.DOCUMENT);
+    }
 
     /**
      * Creates a new document.
