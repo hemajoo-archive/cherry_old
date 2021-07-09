@@ -17,11 +17,12 @@ import org.ressec.avocado.core.exception.checked.AbstractCheckedException;
 import org.springframework.http.HttpStatus;
 
 /**
- * Checked exception thrown to indicate an error occurred with an entity.
+ * Abstract checked exception thrown to indicate an error occurred with an entity being part of the {@code Cherry} data
+ * model.
  * @author <a href="mailto:christophe.resse@gmail.com">Christophe Resse</a>
  * @version 1.0.0
  */
-public class EntityException extends AbstractCheckedException
+public abstract class EntityException extends AbstractCheckedException
 {
     /**
      * Http status.
