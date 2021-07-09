@@ -9,12 +9,12 @@
  * License can be consulted at http://www.apache.org/licenses/LICENSE-2.0
  * --------------------------------------------------------------------------------------
  */
-package com.hemajoo.commerce.cherry.model.base;
+package com.hemajoo.commerce.cherry.model.entity.base;
 
 import com.hemajoo.commerce.cherry.commons.entity.EntityIdentity;
 import com.hemajoo.commerce.cherry.commons.entity.IEntityIdentity;
 import com.hemajoo.commerce.cherry.commons.type.EntityType;
-import com.hemajoo.commerce.cherry.model.domain.document.Document;
+import com.hemajoo.commerce.cherry.model.entity.document.Document;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

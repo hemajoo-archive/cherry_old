@@ -9,7 +9,7 @@
  * License can be consulted at http://www.apache.org/licenses/LICENSE-2.0
  * --------------------------------------------------------------------------------------
  */
-package com.hemajoo.commerce.cherry.model.domain.document;
+package com.hemajoo.commerce.cherry.model.entity.document;
 
 import com.hemajoo.commerce.cherry.commons.exception.EntityException;
 import com.hemajoo.commerce.cherry.commons.type.EntityType;

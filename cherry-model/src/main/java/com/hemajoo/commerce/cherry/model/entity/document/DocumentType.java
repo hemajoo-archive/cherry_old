@@ -9,7 +9,7 @@
  * License can be consulted at http://www.apache.org/licenses/LICENSE-2.0
  * --------------------------------------------------------------------------------------
  */
-package com.hemajoo.commerce.cherry.model.domain.document.type;
+package com.hemajoo.commerce.cherry.model.entity.document;
 
 import lombok.NonNull;
 

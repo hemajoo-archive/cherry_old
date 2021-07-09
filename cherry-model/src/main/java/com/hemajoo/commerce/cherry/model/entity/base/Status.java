@@ -9,7 +9,7 @@
  * License can be consulted at http://www.apache.org/licenses/LICENSE-2.0
  * --------------------------------------------------------------------------------------
  */
-package com.hemajoo.commerce.cherry.model.base;
+package com.hemajoo.commerce.cherry.model.entity.base;
 
 import com.hemajoo.commerce.cherry.commons.type.StatusType;
 import io.swagger.annotations.ApiModelProperty;
