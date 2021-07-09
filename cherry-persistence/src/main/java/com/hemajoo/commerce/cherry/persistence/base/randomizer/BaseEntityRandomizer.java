@@ -51,6 +51,11 @@ public abstract class BaseEntityRandomizer
     protected static final EnumRandomGenerator STATUS_TYPE_GENERATOR = new EnumRandomGenerator(StatusType.class).exclude(StatusType.UNSPECIFIED);
 
     /**
+     * Creates a new base entity randomizer.
+     */
+    protected BaseEntityRandomizer() {};
+
+    /**
      * Populates the base persistent entity with random values.
      * @param parent Parent entity.
      */
@@ -63,9 +68,9 @@ public abstract class BaseEntityRandomizer
         parent.setDescription(FAKER.hitchhikersGuideToTheGalaxy().marvinQuote());
         parent.setReference(FAKER.ancient().hero());
         parent.setStatusType((StatusType) STATUS_TYPE_GENERATOR.gen());
-        parent.setCreatedBy(FAKER.name().name());
+        parent.setCreatedBy(FAKER.internet().emailAddress());
         parent.setCreatedDate(FAKER.date().past(100, TimeUnit.DAYS)); // Created in the previous 100 days
-        parent.setModifiedBy(FAKER.name().name());
+        parent.setModifiedBy(FAKER.internet().emailAddress());
         parent.setCreatedDate(FAKER.date().past(1, TimeUnit.HOURS)); // Modified in the last hour
     }
 
@@ -82,9 +87,9 @@ public abstract class BaseEntityRandomizer
         parent.setDescription(FAKER.hitchhikersGuideToTheGalaxy().marvinQuote());
         parent.setReference(FAKER.ancient().hero());
         parent.setStatusType((StatusType) STATUS_TYPE_GENERATOR.gen());
-        parent.setCreatedBy(FAKER.name().name());
+        parent.setCreatedBy(FAKER.internet().emailAddress());
         parent.setCreatedDate(FAKER.date().past(100, TimeUnit.DAYS)); // Created in the previous 100 days
-        parent.setModifiedBy(FAKER.name().name());
+        parent.setModifiedBy(FAKER.internet().emailAddress());
         parent.setCreatedDate(FAKER.date().past(1, TimeUnit.HOURS)); // Modified in the last hour
     }
 

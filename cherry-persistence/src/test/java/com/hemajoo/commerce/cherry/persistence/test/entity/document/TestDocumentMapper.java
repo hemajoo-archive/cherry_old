@@ -12,6 +12,7 @@
 package com.hemajoo.commerce.cherry.persistence.test.entity.document;
 
 import com.hemajoo.commerce.cherry.model.entity.document.Document;
+import com.hemajoo.commerce.cherry.model.entity.document.DocumentException;
 import com.hemajoo.commerce.cherry.persistence.base.mapper.CycleAvoidingMappingContext;
 import com.hemajoo.commerce.cherry.persistence.model.entity.document.DocumentEntity;
 import com.hemajoo.commerce.cherry.persistence.model.entity.document.DocumentMapper;
@@ -49,7 +50,7 @@ class TestDocumentMapper extends BaseMapperUnitTest
 
     @Test
     @DisplayName("Map a list of persistent documents to a list of client documents and check they are equal")
-    final void shouldMapListPersistentDocumentToListClientDocument()
+    final void shouldMapListPersistentDocumentToListClientDocument() throws DocumentException
     {
         List<DocumentEntity> persistentList = new ArrayList<>();
         for (int i = 0; i < LIST_COUNT; i++)
@@ -72,7 +73,7 @@ class TestDocumentMapper extends BaseMapperUnitTest
 
     @Test
     @DisplayName("Map a list of client documents to a list of persistent documents and check they are equal")
-    final void shouldMapListClientDocumentToListPersistentDocument()
+    final void shouldMapListClientDocumentToListPersistentDocument() throws DocumentException
     {
         List<Document> clientList = new ArrayList<>();
         for (int i = 0; i < LIST_COUNT; i++)
@@ -159,7 +160,13 @@ class TestDocumentMapper extends BaseMapperUnitTest
         Assertions.assertEquals(persistent.getContentLength(), copy.getContentLength());
     }
 
-    private void checkFields(final @NonNull List<DocumentEntity> persistentList, final @NonNull List<Document> clientList)
+    /**
+     * Checks equality of fields between document entities.
+     * @param persistentList List of persistent documents.
+     * @param clientList List of client documents.
+     * @throws DocumentException Thrown in case an error occurred finding a client document!
+     */
+    private void checkFields(final @NonNull List<DocumentEntity> persistentList, final @NonNull List<Document> clientList) throws DocumentException
     {
         Optional<Document> client;
         for (DocumentEntity persistent : persistentList)
@@ -168,6 +175,10 @@ class TestDocumentMapper extends BaseMapperUnitTest
             if (client.isPresent())
             {
                 checkBaseFields(persistent, client.get());
+            }
+            else
+            {
+                throw new DocumentException(String.format("Cannot find client document with id: '%s'", persistent.getId()));
             }
         }
     }
