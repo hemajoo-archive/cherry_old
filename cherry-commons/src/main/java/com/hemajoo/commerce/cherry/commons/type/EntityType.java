@@ -12,7 +12,7 @@
 package com.hemajoo.commerce.cherry.commons.type;
 
 /**
- * An enumeration representing the several possible entity types.
+ * Enumeration representing the several possible entity types.
  * @author <a href="mailto:christophe.resse@gmail.com">Christophe Resse</a>
  * @version 1.0.0
  */
