@@ -9,7 +9,7 @@
  * License can be consulted at http://www.apache.org/licenses/LICENSE-2.0
  * --------------------------------------------------------------------------------------
  */
-package com.hemajoo.commerce.cherry.persistence.test.entity.document;
+package com.hemajoo.commerce.cherry.persistence.test.model.entity.document;
 
 import com.hemajoo.commerce.cherry.model.entity.document.Document;
 import com.hemajoo.commerce.cherry.model.entity.document.DocumentException;
@@ -43,7 +43,7 @@ class TestDocumentMapper extends BaseMapperUnitTest
     @DisplayName("Map a persistent document to a client document and check they are equal")
     final void shouldMapPersistentDocumentToClientDocument()
     {
-        DocumentEntity persistent = DocumentRandomizer.generatePersistent();
+        DocumentEntity persistent = DocumentRandomizer.generatePersistent(true);
         Document client = DocumentMapper.INSTANCE.fromPersistent(persistent, new CycleAvoidingMappingContext());
         checkFields(persistent, client);
     }
@@ -55,7 +55,7 @@ class TestDocumentMapper extends BaseMapperUnitTest
         List<DocumentEntity> persistentList = new ArrayList<>();
         for (int i = 0; i < LIST_COUNT; i++)
         {
-            persistentList.add(DocumentRandomizer.generatePersistent());
+            persistentList.add(DocumentRandomizer.generatePersistent(true));
         }
 
         List<Document> clientList = DocumentMapper.INSTANCE.fromPersistentList(persistentList, new CycleAvoidingMappingContext());
@@ -66,7 +66,7 @@ class TestDocumentMapper extends BaseMapperUnitTest
     @DisplayName("Map a client document to a persistent document and check they are equal")
     final void shouldMapClientDocumentToPersistentDocument()
     {
-        Document client = DocumentRandomizer.generateClient();
+        Document client = DocumentRandomizer.generateClient(true);
         DocumentEntity persistent = DocumentMapper.INSTANCE.fromClient(client, new CycleAvoidingMappingContext());
         checkFields(persistent, client);
     }
@@ -78,7 +78,7 @@ class TestDocumentMapper extends BaseMapperUnitTest
         List<Document> clientList = new ArrayList<>();
         for (int i = 0; i < LIST_COUNT; i++)
         {
-            clientList.add(DocumentRandomizer.generateClient());
+            clientList.add(DocumentRandomizer.generateClient(true));
         }
 
         List<DocumentEntity> persistentList = DocumentMapper.INSTANCE.fromClientList(clientList, new CycleAvoidingMappingContext());
@@ -89,7 +89,7 @@ class TestDocumentMapper extends BaseMapperUnitTest
     @DisplayName("Create a deep copy of a client document and check they are equal")
     final void shouldDeepCopyClientDocument()
     {
-        Document client = DocumentRandomizer.generateClient();
+        Document client = DocumentRandomizer.generateClient(true);
         Document copy = DocumentMapper.INSTANCE.copy(client, new CycleAvoidingMappingContext());
         checkFields(client, copy);
     }
@@ -98,7 +98,7 @@ class TestDocumentMapper extends BaseMapperUnitTest
     @DisplayName("Create a deep copy of a persistent document and check they are equal")
     final void shouldDeepCopyPersistentDocument()
     {
-        DocumentEntity persistent = DocumentRandomizer.generatePersistent();
+        DocumentEntity persistent = DocumentRandomizer.generatePersistent(true);
         DocumentEntity copy = DocumentMapper.INSTANCE.copy(persistent, new CycleAvoidingMappingContext());
         checkFields(persistent, copy);
     }
