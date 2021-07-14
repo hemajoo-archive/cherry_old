@@ -11,10 +11,16 @@
  */
 package com.hemajoo.commerce.cherry.persistence.test.base;
 
+import com.hemajoo.commerce.cherry.persistence.content.ContentStoreRepository;
+import com.hemajoo.commerce.cherry.persistence.content.DocumentRepository;
+import lombok.Getter;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.BeforeEach;
 import org.ressec.avocado.core.junit.BaseUnitTest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+
+import java.io.IOException;
 
 /**
  * Base unit test for database test classes.
@@ -24,6 +30,22 @@ import org.springframework.beans.factory.annotation.Value;
 public abstract class BaseDatabaseUnitTest extends BaseUnitTest
 {
     protected static boolean IS_DATABASE_INITIALIZED = false;
+
+    @Getter
+    @Value("${hemajoo.commerce.cherry.store.location}")
+    private String baseContentStoreLocation;
+
+    /**
+     * Document content store repository.
+     */
+    @Autowired
+    private ContentStoreRepository contentRepository;
+
+    /**
+     * Document repository.
+     */
+    @Autowired
+    private DocumentRepository documentRepository;
 
     /**
      * Database data source.
@@ -61,7 +83,7 @@ public abstract class BaseDatabaseUnitTest extends BaseUnitTest
     @Value("${spring.jpa.properties.hibernate.default_schema}")
     private String schemas;
 
-    protected void initDb()
+    protected void initializeDatabase()
     {
         if (enabled)
         {
@@ -83,9 +105,8 @@ public abstract class BaseDatabaseUnitTest extends BaseUnitTest
     }
 
     @BeforeEach
-    void setUp()
+    protected void setUp() throws IOException
     {
-        super.setUpBeforeEach();
-        initDb();
+        initializeDatabase();
     }
 }

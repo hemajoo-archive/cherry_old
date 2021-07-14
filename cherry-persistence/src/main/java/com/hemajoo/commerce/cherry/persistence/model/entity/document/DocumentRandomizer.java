@@ -35,12 +35,18 @@ public final class DocumentRandomizer extends BaseEntityRandomizer
 
     /**
      * Generates a new random persistent document.
+     * @param withRandomId Do we need to generate a random identifier? False by default.
      * @return Random document.
      */
-    public static DocumentEntity generatePersistent()
+    public static DocumentEntity generatePersistent(final boolean withRandomId)
     {
         var entity = new DocumentEntity();
         BaseEntityRandomizer.populateBaseFields(entity);
+
+        if (withRandomId)
+        {
+            entity.setId(UUID.randomUUID());
+        }
 
         entity.setName(FAKER.name().title());
         entity.setContentPath(FAKER.funnyName().name());
@@ -56,12 +62,18 @@ public final class DocumentRandomizer extends BaseEntityRandomizer
 
     /**
      * Generates a new random client document.
+     * @param withRandomId Do we need to generate a random identifier? False by default.
      * @return Random document.
      */
-    public static Document generateClient()
+    public static Document generateClient(final boolean withRandomId)
     {
         var entity = new Document();
         BaseEntityRandomizer.populateBaseFields(entity);
+
+        if (withRandomId)
+        {
+            entity.setId(UUID.randomUUID());
+        }
 
         entity.setName(FAKER.name().title());
         entity.setContentPath(FAKER.funnyName().name());

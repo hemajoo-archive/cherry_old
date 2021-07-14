@@ -20,7 +20,6 @@ import org.ressec.avocado.core.random.EnumRandomGenerator;
 
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -53,7 +52,10 @@ public abstract class BaseEntityRandomizer
     /**
      * Creates a new base entity randomizer.
      */
-    protected BaseEntityRandomizer() {};
+    protected BaseEntityRandomizer()
+    {
+        // Empty
+    }
 
     /**
      * Populates the base persistent entity with random values.
@@ -61,11 +63,12 @@ public abstract class BaseEntityRandomizer
      */
     public static void populateBaseFields(final @NonNull BaseEntity parent)
     {
-        if (parent.getId() == null)
+        String description = FAKER.hitchhikersGuideToTheGalaxy().marvinQuote();
+        if (description.length() > 255)
         {
-            parent.setId(UUID.randomUUID());
+            description = description.substring(1, 255);
         }
-        parent.setDescription(FAKER.hitchhikersGuideToTheGalaxy().marvinQuote());
+        parent.setDescription(description);
         parent.setReference(FAKER.ancient().hero());
         parent.setStatusType((StatusType) STATUS_TYPE_GENERATOR.gen());
         parent.setCreatedBy(FAKER.internet().emailAddress());
@@ -80,11 +83,12 @@ public abstract class BaseEntityRandomizer
      */
     public static void populateBaseFields(final @NonNull Base parent)
     {
-        if (parent.getId() == null)
+        String description = FAKER.hitchhikersGuideToTheGalaxy().marvinQuote();
+        if (description.length() > 255)
         {
-            parent.setId(UUID.randomUUID());
+            description = description.substring(1, 255);
         }
-        parent.setDescription(FAKER.hitchhikersGuideToTheGalaxy().marvinQuote());
+        parent.setDescription(description);
         parent.setReference(FAKER.ancient().hero());
         parent.setStatusType((StatusType) STATUS_TYPE_GENERATOR.gen());
         parent.setCreatedBy(FAKER.internet().emailAddress());
