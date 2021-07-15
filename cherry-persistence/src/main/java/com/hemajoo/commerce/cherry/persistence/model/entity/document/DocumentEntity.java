@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.persistence.*;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Represents a persistent document entity.
@@ -129,6 +130,12 @@ public class DocumentEntity extends BaseEntity
     @Setter
     @ManyToOne(targetEntity = BaseEntity.class, fetch = FetchType.EAGER)
     private BaseEntity owner;
+
+    @Transient
+    @ToString.Exclude
+    @Getter
+    @Setter
+    private transient InputStream content;
 
     /**
      * Creates a new document.

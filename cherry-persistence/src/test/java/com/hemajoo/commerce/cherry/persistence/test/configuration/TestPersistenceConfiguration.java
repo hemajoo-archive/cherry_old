@@ -70,9 +70,16 @@ public class TestPersistenceConfiguration
         }
 
         // Clear the content store for a test environment
-        Arrays.stream(
-                Objects.requireNonNull(
-                        new File(baseContentStoreLocation).listFiles())).forEach(File::delete);
+        try
+        {
+            Arrays.stream(
+                    Objects.requireNonNull(
+                            new File(baseContentStoreLocation).listFiles())).forEach(File::delete);
+        }
+        catch (Exception e)
+        {
+            // Directory does not exist, do nothing!
+        }
 
         return new File(baseContentStoreLocation);
     }

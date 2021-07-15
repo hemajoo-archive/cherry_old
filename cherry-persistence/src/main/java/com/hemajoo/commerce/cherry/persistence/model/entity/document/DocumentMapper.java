@@ -18,6 +18,7 @@ import com.hemajoo.commerce.cherry.model.entity.document.Document;
 import com.hemajoo.commerce.cherry.persistence.base.mapper.CycleAvoidingMappingContext;
 import org.mapstruct.Context;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
@@ -58,6 +59,7 @@ public interface DocumentMapper
      * @param context Context object.
      * @return Converted persistent entity.
      */
+    @Mapping(target = "content", ignore = true)
     DocumentEntity fromClient(Document entity, @Context CycleAvoidingMappingContext context);
 
     /**
