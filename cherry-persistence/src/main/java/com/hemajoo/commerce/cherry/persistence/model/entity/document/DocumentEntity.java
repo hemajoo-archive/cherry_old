@@ -179,6 +179,24 @@ public class DocumentEntity extends BaseEntity
     }
 
     /**
+     * Creates a new document given an associated media file.
+     * @param owner Document owner.
+     * @param documentType Document type.
+     * @param file File.
+     * @throws DocumentException Thrown in case an error occurred while accessing the document file.
+     */
+    public DocumentEntity(final @NonNull BaseEntity owner, final @NonNull DocumentType documentType, final @NonNull File file) throws DocumentException
+    {
+        this(owner, documentType);
+
+        this.filename = file.getName();
+        setName(FilenameUtils.getName(FilenameUtils.removeExtension(filename)));
+        setExtension(FilenameUtils.getExtension(this.filename));
+
+        detectMimeType();
+    }
+
+    /**
      * Creates a new document given its path name.
      * @param owner Document owner.
      * @param documentType Document type.

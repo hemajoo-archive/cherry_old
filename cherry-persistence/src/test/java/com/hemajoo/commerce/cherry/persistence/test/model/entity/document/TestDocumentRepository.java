@@ -120,6 +120,7 @@ class TestDocumentRepository extends BaseDatabaseUnitTest
         // Generate a random document.
         DocumentEntity entity = DocumentRandomizer.generatePersistent(false);
         entity.setContent(new FileInputStream(FileHelper.getFile("./media/java-8-streams-cheat-sheet.pdf")));
+        long length = entity.getContentLength();
         documentService.save(entity);
 
         // Update the document content.
@@ -130,6 +131,6 @@ class TestDocumentRepository extends BaseDatabaseUnitTest
         // Assert the document has been updated in the database!
         DocumentEntity element = documentService.findById(entity.getId());
         Assertions.assertNotNull(element);
-        Assertions.assertNotNull(element.getContent());
+        Assertions.assertNotEquals(element.getContentLength(), length);
     }
 }

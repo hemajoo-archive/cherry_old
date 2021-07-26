@@ -12,8 +12,8 @@
 
     <artifactId>cherry-persistence</artifactId>
 
-    <name>cherry-persistence</name>
-    <description>Cherry persistence module.</description>
+    <name>Cherry - Persistence</name>
+    <description>Module providing the persistence layer.</description>
 
     <properties>
         <flyway.user>sa</flyway.user>
@@ -196,5 +196,28 @@
 <!--            </plugin>-->
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <!--Sonar analysis executed only if profile 'sonar' is active -->
+            <id>sonar</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.sonarsource.scanner.maven</groupId>
+                        <artifactId>sonar-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sonar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>
