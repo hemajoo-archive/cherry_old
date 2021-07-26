@@ -16,7 +16,6 @@ import com.hemajoo.commerce.cherry.persistence.model.entity.document.DocumentEnt
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.io.InputStream;
 import java.util.List;
 import java.util.UUID;
@@ -54,7 +53,7 @@ public class DocumentServiceCore implements DocumentService
     }
 
     @Override
-    @Transactional(rollbackOn = DocumentException.class) // TODO Should be removed safely!
+    //@Transactional(rollbackOn = DocumentException.class) // TODO Should be removed safely!
     public DocumentEntity save(DocumentEntity document)
     {
         document = documentRepository.save(document);
@@ -63,13 +62,13 @@ public class DocumentServiceCore implements DocumentService
         if (document.getContent() != null)
         {
             contentStoreRepository.setContent(document, document.getContent());
+            document.setContent(null);
         }
 
         return document;
     }
 
     @Override
-    @Transactional(rollbackOn = DocumentException.class) // TODO Should be removed safely!
     public void deleteById(UUID id)
     {
         DocumentEntity document = findById(id);
