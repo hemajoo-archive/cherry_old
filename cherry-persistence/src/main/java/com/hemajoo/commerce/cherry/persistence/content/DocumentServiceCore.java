@@ -53,7 +53,6 @@ public class DocumentServiceCore implements DocumentService
     }
 
     @Override
-    //@Transactional(rollbackOn = DocumentException.class) // TODO Should be removed safely!
     public DocumentEntity save(DocumentEntity document)
     {
         document = documentRepository.save(document);
@@ -62,7 +61,6 @@ public class DocumentServiceCore implements DocumentService
         if (document.getContent() != null)
         {
             contentStoreRepository.setContent(document, document.getContent());
-            document.setContent(null);
         }
 
         return document;
@@ -85,22 +83,23 @@ public class DocumentServiceCore implements DocumentService
     @Override
     public List<DocumentEntity> findAll()
     {
+        // TODO We should for each document inject its content such as for the findById
         return documentRepository.findAll();
     }
 
     @Override
-    public InputStream getContent(DocumentEntity document)
+    public void loadContent(DocumentEntity document) throws DocumentException
     {
-        return contentStoreRepository.getContent(document);
+        document.setContent(contentStoreRepository.getContent(document));
     }
 
     @Override
-    public InputStream getContent(UUID documentId) throws DocumentException
+    public void loadContent(UUID documentId) throws DocumentException
     {
         DocumentEntity document = findById(documentId);
         if (document != null)
         {
-            return contentStoreRepository.getContent(document);
+            loadContent(document);
         }
 
         throw new DocumentException(String.format("Cannot find document id.: '%s'", documentId.toString()));

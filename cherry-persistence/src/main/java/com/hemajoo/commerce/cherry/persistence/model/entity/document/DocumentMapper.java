@@ -15,6 +15,7 @@
 package com.hemajoo.commerce.cherry.persistence.model.entity.document;
 
 import com.hemajoo.commerce.cherry.model.entity.document.Document;
+import com.hemajoo.commerce.cherry.model.entity.document.DocumentException;
 import com.hemajoo.commerce.cherry.persistence.base.mapper.CycleAvoidingMappingContext;
 import org.mapstruct.Context;
 import org.mapstruct.Mapper;
@@ -76,7 +77,7 @@ public interface DocumentMapper
      * @param context Context object.
      * @return Copy of the persistent entity.
      */
-    DocumentEntity copy(DocumentEntity entity, @Context CycleAvoidingMappingContext context);
+    DocumentEntity copy(DocumentEntity entity, @Context CycleAvoidingMappingContext context) throws DocumentException;
 
     /**
      * Returns a deep copy of a client entity.

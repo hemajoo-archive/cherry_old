@@ -42,6 +42,12 @@
             <artifactId>avocado-core</artifactId>
         </dependency>
 
+        <!-- Tika -->
+        <dependency>
+            <groupId>com.github.lafa.tikaNoExternal</groupId>
+            <artifactId>tika-core</artifactId>
+        </dependency>
+
     </dependencies>
 
 <!--    <build>-->

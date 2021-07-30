@@ -14,7 +14,6 @@ package com.hemajoo.commerce.cherry.persistence.content;
 import com.hemajoo.commerce.cherry.model.entity.document.DocumentException;
 import com.hemajoo.commerce.cherry.persistence.model.entity.document.DocumentEntity;
 
-import java.io.InputStream;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,7 +35,7 @@ public interface DocumentService
      * @param id Document identifier.
      * @return Document if found, null otherwise.
      */
-    DocumentEntity findById(UUID id);
+    DocumentEntity findById(UUID id) throws DocumentException;
 
     /**
      * Saves a document.
@@ -49,8 +48,9 @@ public interface DocumentService
     /**
      * Deletes a document given its identifier.
      * @param id Document identifier.
+     * @throws DocumentException Raised if an error occurred while trying to delete the document.
      */
-    void deleteById(UUID id);
+    void deleteById(UUID id) throws DocumentException;
 
     /**
      * Returns all the documents.
@@ -58,7 +58,17 @@ public interface DocumentService
      */
     List<DocumentEntity> findAll();
 
-    InputStream getContent(DocumentEntity document);
+    /**
+     * Loads the content (media file) of the document.
+     * @param document Document.
+     * @throws DocumentException Raised if an error occurred while trying to load the document.
+     */
+    void loadContent(DocumentEntity document) throws DocumentException;
 
-    InputStream getContent(UUID documentId) throws DocumentException;
+    /**
+     * Loads the content (media file) of the document.
+     * @param documentId Document identifier.
+     * @throws DocumentException Raised if an error occurred while trying to load the document.
+     */
+    void loadContent(UUID documentId) throws DocumentException;
 }

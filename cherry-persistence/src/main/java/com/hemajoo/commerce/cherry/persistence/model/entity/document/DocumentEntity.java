@@ -12,12 +12,16 @@
 package com.hemajoo.commerce.cherry.persistence.model.entity.document;
 
 import com.hemajoo.commerce.cherry.commons.type.EntityType;
+import com.hemajoo.commerce.cherry.model.entity.document.DocumentContentException;
 import com.hemajoo.commerce.cherry.model.entity.document.DocumentException;
 import com.hemajoo.commerce.cherry.model.entity.document.DocumentType;
+import com.hemajoo.commerce.cherry.persistence.content.DocumentService;
 import com.hemajoo.commerce.cherry.persistence.model.entity.base.BaseEntity;
 import lombok.*;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.tika.Tika;
+import org.ressec.avocado.core.helper.FileHelper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.content.commons.annotations.ContentId;
 import org.springframework.content.commons.annotations.ContentLength;
 import org.springframework.content.commons.annotations.MimeType;
@@ -26,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -134,7 +139,6 @@ public class DocumentEntity extends BaseEntity
     @Transient
     @ToString.Exclude
     @Getter
-    @Setter
     private transient InputStream content;
 
     /**
@@ -165,9 +169,9 @@ public class DocumentEntity extends BaseEntity
      * @param owner Document owner.
      * @param documentType Document type.
      * @param filename File name.
-     * @throws DocumentException Thrown in case an error occurred while accessing the document file.
+     * @throws DocumentContentException Thrown in case an error occurred while processing the document content.
      */
-    public DocumentEntity(final @NonNull BaseEntity owner, final @NonNull DocumentType documentType, final @NonNull String filename) throws DocumentException
+    public DocumentEntity(final @NonNull BaseEntity owner, final @NonNull DocumentType documentType, final @NonNull String filename) throws DocumentContentException
     {
         this(owner, documentType);
 
@@ -175,7 +179,7 @@ public class DocumentEntity extends BaseEntity
         setName(FilenameUtils.getName(FilenameUtils.removeExtension(filename)));
         setExtension(FilenameUtils.getExtension(this.filename));
 
-        detectMimeType();
+        detectMimeType(filename);
     }
 
     /**
@@ -183,9 +187,9 @@ public class DocumentEntity extends BaseEntity
      * @param owner Document owner.
      * @param documentType Document type.
      * @param file File.
-     * @throws DocumentException Thrown in case an error occurred while accessing the document file.
+     * @throws DocumentContentException Thrown in case an error occurred while processing the document content.
      */
-    public DocumentEntity(final @NonNull BaseEntity owner, final @NonNull DocumentType documentType, final @NonNull File file) throws DocumentException
+    public DocumentEntity(final @NonNull BaseEntity owner, final @NonNull DocumentType documentType, final @NonNull File file) throws DocumentContentException
     {
         this(owner, documentType);
 
@@ -193,7 +197,7 @@ public class DocumentEntity extends BaseEntity
         setName(FilenameUtils.getName(FilenameUtils.removeExtension(filename)));
         setExtension(FilenameUtils.getExtension(this.filename));
 
-        detectMimeType();
+        detectMimeType(file);
     }
 
     /**
@@ -201,9 +205,9 @@ public class DocumentEntity extends BaseEntity
      * @param owner Document owner.
      * @param documentType Document type.
      * @param multiPartFile Multi part file.
-     * @throws DocumentException Thrown in case an error occurred while accessing the document file.
+     * @throws DocumentContentException Thrown in case an error occurred while processing the document content.
      */
-    public DocumentEntity(final @NonNull BaseEntity owner, final @NonNull DocumentType documentType, final @NonNull MultipartFile multiPartFile) throws DocumentException
+    public DocumentEntity(final @NonNull BaseEntity owner, final @NonNull DocumentType documentType, final @NonNull MultipartFile multiPartFile) throws DocumentContentException
     {
         this(owner, documentType);
 
@@ -211,29 +215,109 @@ public class DocumentEntity extends BaseEntity
         this.multiPartFile = multiPartFile;
         setName(FilenameUtils.getName(FilenameUtils.removeExtension(filename)));
         setExtension(FilenameUtils.getExtension(filename));
-        detectMimeType();
+        detectMimeType(multiPartFile);
     }
 
-    /**
-     * Detects the media file MIME type.
-     * @throws DocumentException Thrown in case an error occurred while processing the media file.
-     */
-    private void detectMimeType() throws DocumentException
+    public final void setContent(final @NonNull String filename) throws DocumentContentException
     {
         try
         {
-            if (this.getMultiPartFile() != null)
-            {
-                mimeType = new Tika().detect(this.getMultiPartFile().getInputStream());
-            }
-            else
-            {
-                mimeType = new Tika().detect(new File(this.getFilename()));
-            }
+            detectMimeType(filename);
+            this.filename = FilenameUtils.getName(filename);
+            this.extension = FilenameUtils.getExtension(filename);
+            content = new FileInputStream(FileHelper.getFile(filename));
         }
-        catch (IOException e)
+        catch (Exception e)
         {
-            throw new DocumentException(e.getMessage());
+            throw new DocumentContentException(e);
+        };
+    }
+
+    public final void setContent(final @NonNull File file) throws DocumentContentException
+    {
+        try
+        {
+            detectMimeType(file.getName());
+            this.filename = FilenameUtils.getName(file.getName());
+            this.extension = FilenameUtils.getExtension(file.getName());
+            content = new FileInputStream(FileHelper.getFile(file.getName()));
+        }
+        catch (Exception e)
+        {
+            throw new DocumentContentException(e);
+        };
+    }
+
+    public final void setContent(final @NonNull InputStream inputStream)
+    {
+        this.content = inputStream;
+    }
+
+    /**
+     * Detects the media file {@code Mime} type.
+     * @param filename File name.
+     * @throws DocumentContentException Thrown in case an error occurred while processing the media file.
+     */
+    private void detectMimeType(final @NonNull String filename) throws DocumentContentException
+    {
+        try
+        {
+            mimeType = new Tika().detect(FileHelper.getFile(filename));
+        }
+        catch (Exception e)
+        {
+            throw new DocumentContentException(e.getMessage());
+        }
+    }
+
+    /**
+     * Detects the media file {@code Mime} type.
+     * @param file File.
+     * @throws DocumentContentException Thrown in case an error occurred while processing the media file.
+     */
+    private void detectMimeType(final @NonNull File file) throws DocumentContentException
+    {
+        try
+        {
+            mimeType = new Tika().detect(file);
+        }
+        catch (Exception e)
+        {
+            throw new DocumentContentException(e.getMessage());
+        }
+    }
+
+    /**
+     * Detects the media file {@code Mime} type.
+     * @param inputStream Input Stream.
+     * @throws DocumentContentException Thrown in case an error occurred while processing the media file.
+     */
+    private void detectMimeType(final @NonNull InputStream inputStream) throws DocumentContentException
+    {
+        try
+        {
+            mimeType = new Tika().detect(inputStream);
+        }
+        catch (Exception e)
+        {
+            throw new DocumentContentException(e.getMessage());
+        }
+    }
+
+    /**
+     * Detects the media file {@code Mime} type.
+     * @param multiPartFile Multi part file.
+     * @throws DocumentContentException Thrown in case an error occurred while processing the media file.
+     */
+    private void detectMimeType(final @NonNull MultipartFile multiPartFile) throws DocumentContentException
+    {
+        try
+        {
+            mimeType = new Tika().detect(multiPartFile.getInputStream());
+        }
+        catch (Exception e)
+        {
+            throw new DocumentContentException(e.getMessage());
         }
     }
 
@@ -247,7 +331,7 @@ public class DocumentEntity extends BaseEntity
         String end = getName() + "." + extension;
 
         return outputPath.endsWith(File.separator)
-                ? outputPath + end
-                : outputPath + File.separator + end;
+                ? (outputPath + end)
+                : (outputPath + File.separator + end);
     }
 }

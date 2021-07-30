@@ -12,6 +12,7 @@
 package com.hemajoo.commerce.cherry.persistence.test.model.entity.document;
 
 import com.hemajoo.commerce.cherry.model.entity.document.Document;
+import com.hemajoo.commerce.cherry.model.entity.document.DocumentContentException;
 import com.hemajoo.commerce.cherry.model.entity.document.DocumentException;
 import com.hemajoo.commerce.cherry.persistence.base.mapper.CycleAvoidingMappingContext;
 import com.hemajoo.commerce.cherry.persistence.model.entity.document.DocumentEntity;
@@ -19,13 +20,14 @@ import com.hemajoo.commerce.cherry.persistence.model.entity.document.DocumentMap
 import com.hemajoo.commerce.cherry.persistence.model.entity.document.DocumentRandomizer;
 import com.hemajoo.commerce.cherry.persistence.test.base.BaseMapperUnitTest;
 import lombok.NonNull;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Test the {@link DocumentMapper} class.
@@ -40,8 +42,8 @@ class TestDocumentMapper extends BaseMapperUnitTest
     private final int LIST_COUNT = 10;
 
     @Test
-    @DisplayName("Map a persistent document to a client document and check they are equal")
-    final void shouldMapPersistentDocumentToClientDocument()
+    @DisplayName("Map a persistent document to a client document")
+    final void testMapPersistentDocumentToClientDocument() throws DocumentContentException
     {
         DocumentEntity persistent = DocumentRandomizer.generatePersistent(true);
         Document client = DocumentMapper.INSTANCE.fromPersistent(persistent, new CycleAvoidingMappingContext());
@@ -49,8 +51,8 @@ class TestDocumentMapper extends BaseMapperUnitTest
     }
 
     @Test
-    @DisplayName("Map a list of persistent documents to a list of client documents and check they are equal")
-    final void shouldMapListPersistentDocumentToListClientDocument() throws DocumentException
+    @DisplayName("Map a list of persistent documents to a list of client documents")
+    final void testMapListPersistentDocumentToListClientDocument() throws DocumentContentException, DocumentException
     {
         List<DocumentEntity> persistentList = new ArrayList<>();
         for (int i = 0; i < LIST_COUNT; i++)
@@ -63,8 +65,8 @@ class TestDocumentMapper extends BaseMapperUnitTest
     }
 
     @Test
-    @DisplayName("Map a client document to a persistent document and check they are equal")
-    final void shouldMapClientDocumentToPersistentDocument()
+    @DisplayName("Map a client document to a persistent document")
+    final void testMapClientDocumentToPersistentDocument() throws DocumentContentException
     {
         Document client = DocumentRandomizer.generateClient(true);
         DocumentEntity persistent = DocumentMapper.INSTANCE.fromClient(client, new CycleAvoidingMappingContext());
@@ -72,8 +74,8 @@ class TestDocumentMapper extends BaseMapperUnitTest
     }
 
     @Test
-    @DisplayName("Map a list of client documents to a list of persistent documents and check they are equal")
-    final void shouldMapListClientDocumentToListPersistentDocument() throws DocumentException
+    @DisplayName("Map a list of client documents to a list of persistent documents")
+    final void testMapListClientDocumentToListPersistentDocument() throws DocumentContentException, DocumentException
     {
         List<Document> clientList = new ArrayList<>();
         for (int i = 0; i < LIST_COUNT; i++)
@@ -86,8 +88,8 @@ class TestDocumentMapper extends BaseMapperUnitTest
     }
 
     @Test
-    @DisplayName("Create a deep copy of a client document and check they are equal")
-    final void shouldDeepCopyClientDocument()
+    @DisplayName("Create a deep copy of a client document")
+    final void testDeepCopyClientDocument() throws DocumentContentException
     {
         Document client = DocumentRandomizer.generateClient(true);
         Document copy = DocumentMapper.INSTANCE.copy(client, new CycleAvoidingMappingContext());
@@ -95,8 +97,8 @@ class TestDocumentMapper extends BaseMapperUnitTest
     }
 
     @Test
-    @DisplayName("Create a deep copy of a persistent document and check they are equal")
-    final void shouldDeepCopyPersistentDocument()
+    @DisplayName("Create a deep copy of a persistent document")
+    final void testDeepCopyPersistentDocument() throws DocumentContentException, DocumentException
     {
         DocumentEntity persistent = DocumentRandomizer.generatePersistent(true);
         DocumentEntity copy = DocumentMapper.INSTANCE.copy(persistent, new CycleAvoidingMappingContext());
@@ -113,13 +115,27 @@ class TestDocumentMapper extends BaseMapperUnitTest
         checkBaseFields(persistent, client);
 
         // Do not test equality for transient fields and for owner!
-        Assertions.assertEquals(persistent.getFilename(), client.getFilename());
-        Assertions.assertEquals(persistent.getDocumentType(), client.getDocumentType());
-        Assertions.assertEquals(persistent.getExtension(), client.getExtension());
-        Assertions.assertEquals(persistent.getTags(), client.getTags());
-        Assertions.assertEquals(persistent.getContentId(), client.getContentId());
-        Assertions.assertEquals(persistent.getContentPath(), client.getContentPath());
-        Assertions.assertEquals(persistent.getContentLength(), client.getContentLength());
+        assertThat(persistent.getFilename())
+                .as("Filename should be equal!")
+                .isEqualTo(client.getFilename());
+        assertThat(persistent.getDocumentType())
+                .as("Document type should be equal!")
+                .isEqualTo(client.getDocumentType());
+        assertThat(persistent.getTags())
+                .as("Tags type should be equal!")
+                .isEqualTo(client.getTags());
+        assertThat(persistent.getExtension())
+                .as("Extension type should be equal!")
+                .isEqualTo(client.getExtension());
+        assertThat(persistent.getContentId())
+                .as("Content id type should be equal!")
+                .isEqualTo(client.getContentId());
+        assertThat(persistent.getContentPath())
+                .as("Content path type should be equal!")
+                .isEqualTo(client.getContentPath());
+        assertThat(persistent.getContentLength())
+                .as("Content length type should be equal!")
+                .isEqualTo(client.getContentLength());
     }
 
     /**
@@ -132,13 +148,27 @@ class TestDocumentMapper extends BaseMapperUnitTest
         checkBaseFields(client, copy);
 
         // Do not test equality for transient fields and for owner!
-        Assertions.assertEquals(client.getFilename(), copy.getFilename());
-        Assertions.assertEquals(client.getDocumentType(), copy.getDocumentType());
-        Assertions.assertEquals(client.getExtension(), copy.getExtension());
-        Assertions.assertEquals(client.getTags(), copy.getTags());
-        Assertions.assertEquals(client.getContentId(), copy.getContentId());
-        Assertions.assertEquals(client.getContentPath(), copy.getContentPath());
-        Assertions.assertEquals(client.getContentLength(), copy.getContentLength());
+        assertThat(client.getFilename())
+                .as("Filename should be equal!")
+                .isEqualTo(copy.getFilename());
+        assertThat(client.getDocumentType())
+                .as("Document type should be equal!")
+                .isEqualTo(copy.getDocumentType());
+        assertThat(client.getTags())
+                .as("Tags type should be equal!")
+                .isEqualTo(copy.getTags());
+        assertThat(client.getExtension())
+                .as("Extension type should be equal!")
+                .isEqualTo(copy.getExtension());
+        assertThat(client.getContentId())
+                .as("Content id type should be equal!")
+                .isEqualTo(copy.getContentId());
+        assertThat(client.getContentPath())
+                .as("Content path type should be equal!")
+                .isEqualTo(copy.getContentPath());
+        assertThat(client.getContentLength())
+                .as("Content length type should be equal!")
+                .isEqualTo(copy.getContentLength());
     }
 
     /**
@@ -151,13 +181,27 @@ class TestDocumentMapper extends BaseMapperUnitTest
         checkBaseFields(persistent, copy);
 
         // Do not test equality for transient fields and for owner!
-        Assertions.assertEquals(persistent.getFilename(), copy.getFilename());
-        Assertions.assertEquals(persistent.getDocumentType(), copy.getDocumentType());
-        Assertions.assertEquals(persistent.getExtension(), copy.getExtension());
-        Assertions.assertEquals(persistent.getTags(), copy.getTags());
-        Assertions.assertEquals(persistent.getContentId(), copy.getContentId());
-        Assertions.assertEquals(persistent.getContentPath(), copy.getContentPath());
-        Assertions.assertEquals(persistent.getContentLength(), copy.getContentLength());
+        assertThat(persistent.getFilename())
+                .as("Filename should be equal!")
+                .isEqualTo(copy.getFilename());
+        assertThat(persistent.getDocumentType())
+                .as("Document type should be equal!")
+                .isEqualTo(copy.getDocumentType());
+        assertThat(persistent.getTags())
+                .as("Tags type should be equal!")
+                .isEqualTo(copy.getTags());
+        assertThat(persistent.getExtension())
+                .as("Extension type should be equal!")
+                .isEqualTo(copy.getExtension());
+        assertThat(persistent.getContentId())
+                .as("Content id type should be equal!")
+                .isEqualTo(copy.getContentId());
+        assertThat(persistent.getContentPath())
+                .as("Content path type should be equal!")
+                .isEqualTo(copy.getContentPath());
+        assertThat(persistent.getContentLength())
+                .as("Content length type should be equal!")
+                .isEqualTo(copy.getContentLength());
     }
 
     /**
@@ -178,7 +222,7 @@ class TestDocumentMapper extends BaseMapperUnitTest
             }
             else
             {
-                throw new DocumentException(String.format("Cannot find client document with id: '%s'", persistent.getId()));
+                throw new DocumentException(String.format("Cannot find client document with id: '%s'!", persistent.getId()));
             }
         }
     }
