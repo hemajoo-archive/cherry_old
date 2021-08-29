@@ -59,12 +59,15 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
-      # Step: Maven Clean & Package
-      - name: Package with Maven
+      # Step: Install H2
+      - name: Install H2
         uses: addnab/docker-run-action@v3
         with:
           image: nemerosa/h2:latest
-          run: mvn -B clean package -f cherry-parent/pom.xml
+
+      # Step: Maven Clean & Package
+      - name: Package with Maven
+        run: mvn -B clean package -f cherry-parent/pom.xml
 
       # Step - Maven Verify for Sonar
       - name: Build & Analyze with SonarCloud
