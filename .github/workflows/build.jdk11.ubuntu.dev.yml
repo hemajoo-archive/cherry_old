@@ -33,8 +33,8 @@ jobs:
     if: github.event.pull_request.base.ref == 'dev'
     steps:
       - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
 
       # Step: Setup JDK 11
       - name: Set up JDK 11
@@ -61,8 +61,10 @@ jobs:
 
       # Step: Maven Clean & Package
       - name: Package with Maven
-        uses: docker://nemerosa/h2:latest # Used for the unit tests
-        run: mvn -B clean package -f cherry-parent/pom.xml
+        uses: addnab/docker-run-action@v3
+        with:
+          image: nemerosa/h2:latest
+          run: mvn -B clean package -f cherry-parent/pom.xml
 
       # Step - Maven Verify for Sonar
       - name: Build & Analyze with SonarCloud
