@@ -59,7 +59,7 @@
         <version.maven.plugin.flyway>7.9.1</version.maven.plugin.flyway>
 
         <!-- Dependencies version properties -->
-        <version.ressec.avocado>0.4.0-SNAPSHOT</version.ressec.avocado>
+        <version.ressec.avocado>0.1.0-SNAPSHOT</version.ressec.avocado>
         <version.spring.boot>2.4.5</version.spring.boot>
         <version.swagger>3.0.0</version.swagger>
         <version.google.gson>2.8.6</version.google.gson>
