@@ -64,6 +64,7 @@ jobs:
         uses: addnab/docker-run-action@v3
         with:
           image: nemerosa/h2:latest
+          ports: 9092:9082
 
       # Step: Maven Clean & Package
       - name: Package with Maven
