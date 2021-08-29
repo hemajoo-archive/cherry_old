@@ -104,7 +104,7 @@
 
         <!-- Github Maven repository -->
         <repository>
-            <id>github-read</id>
+            <id>github</id>
             <url>https://maven.pkg.github.com/ressec/*</url>
             <snapshots>
                 <enabled>true</enabled>
