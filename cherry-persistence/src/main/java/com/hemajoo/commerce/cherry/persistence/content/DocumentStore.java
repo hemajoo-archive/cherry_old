@@ -21,7 +21,7 @@ import org.springframework.content.rest.StoreRestResource;
  * @version 1.0.0
  */
 @StoreRestResource
-public interface ContentStoreRepository extends ContentStore<DocumentEntity, String>
+public interface DocumentStore extends ContentStore<DocumentEntity, String>
 {
     // Empty.
 }

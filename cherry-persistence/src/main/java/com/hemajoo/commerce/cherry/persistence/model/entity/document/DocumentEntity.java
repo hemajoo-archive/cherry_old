@@ -13,15 +13,12 @@ package com.hemajoo.commerce.cherry.persistence.model.entity.document;
 
 import com.hemajoo.commerce.cherry.commons.type.EntityType;
 import com.hemajoo.commerce.cherry.model.entity.document.DocumentContentException;
-import com.hemajoo.commerce.cherry.model.entity.document.DocumentException;
 import com.hemajoo.commerce.cherry.model.entity.document.DocumentType;
-import com.hemajoo.commerce.cherry.persistence.content.DocumentService;
 import com.hemajoo.commerce.cherry.persistence.model.entity.base.BaseEntity;
 import lombok.*;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.tika.Tika;
 import org.ressec.avocado.core.helper.FileHelper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.content.commons.annotations.ContentId;
 import org.springframework.content.commons.annotations.ContentLength;
 import org.springframework.content.commons.annotations.MimeType;
@@ -31,7 +28,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.persistence.*;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 
 /**
@@ -75,11 +71,12 @@ public class DocumentEntity extends BaseEntity
      * Document file name.
      */
     @Getter
+    @Setter
     @Column(name = "FILENAME")
     private String filename;
 
     /**
-     * Multi part file.
+     * Multipart file.
      */
     @EqualsAndHashCode.Exclude
     @Getter
@@ -218,6 +215,11 @@ public class DocumentEntity extends BaseEntity
         detectMimeType(multiPartFile);
     }
 
+    /**
+     * Sets the document content.
+     * @param filename File name of the media file to store as the document contant.
+     * @throws DocumentContentException Raised when an error occurred while trying to set the document content.
+     */
     public final void setContent(final @NonNull String filename) throws DocumentContentException
     {
         try
@@ -230,9 +232,14 @@ public class DocumentEntity extends BaseEntity
         catch (Exception e)
         {
             throw new DocumentContentException(e);
-        };
+        }
     }
 
+    /**
+     * Sets the document content.
+     * @param file File representing the media file to store as the document contant.
+     * @throws DocumentContentException Raised when an error occurred while trying to set the document content.
+     */
     public final void setContent(final @NonNull File file) throws DocumentContentException
     {
         try
@@ -245,9 +252,13 @@ public class DocumentEntity extends BaseEntity
         catch (Exception e)
         {
             throw new DocumentContentException(e);
-        };
+        }
     }
 
+    /**
+     * Sets the document content.
+     * @param inputStream Input stream of the file representing the media file to store as the document contant.
+     */
     public final void setContent(final @NonNull InputStream inputStream)
     {
         this.content = inputStream;

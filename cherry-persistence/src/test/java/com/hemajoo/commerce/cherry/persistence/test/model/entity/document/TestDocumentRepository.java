@@ -13,18 +13,14 @@ package com.hemajoo.commerce.cherry.persistence.test.model.entity.document;
 
 import com.hemajoo.commerce.cherry.model.entity.document.DocumentContentException;
 import com.hemajoo.commerce.cherry.model.entity.document.DocumentException;
-import com.hemajoo.commerce.cherry.persistence.content.ContentStoreRepository;
-import com.hemajoo.commerce.cherry.persistence.content.DocumentService;
 import com.hemajoo.commerce.cherry.persistence.model.entity.document.DocumentEntity;
 import com.hemajoo.commerce.cherry.persistence.model.entity.document.DocumentRandomizer;
 import com.hemajoo.commerce.cherry.persistence.test.SpringTestCherry;
 import com.hemajoo.commerce.cherry.persistence.test.base.BaseDatabaseUnitTest;
 import com.hemajoo.commerce.cherry.persistence.test.configuration.TestPersistenceConfiguration;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.annotation.Commit;
@@ -32,6 +28,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -50,18 +48,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DisplayName("Test handle document entity in database")
 class TestDocumentRepository extends BaseDatabaseUnitTest
 {
-    /**
-     * Document persistence service.
-     */
-    @Autowired
-    private DocumentService documentService;
-
-    /**
-     * Document content store repository.
-     */
-    @Autowired
-    private ContentStoreRepository contentRepository;
-
     @Test
     @DisplayName("Create a document (without content) in the database")
     final void testCreateDocumentWithoutContentInDatabase() throws DocumentContentException, DocumentException
@@ -112,8 +98,13 @@ class TestDocumentRepository extends BaseDatabaseUnitTest
 
         // Assert the document has been updated in the database!
         DocumentEntity other = documentService.findById(entity.getId());
-        Assertions.assertNotNull(other);
-        Assertions.assertEquals("cherry", other.getTags());
+
+        assertThat(other)
+                .as("Updated document should not be null!")
+                .isNotNull();
+        assertThat(other.getTags())
+                .as("Document tags should be equal to: 'cherry'")
+                .isEqualTo("cherry");
     }
 
     @Test
@@ -133,7 +124,61 @@ class TestDocumentRepository extends BaseDatabaseUnitTest
 
         // Assert the document has been updated in the database!
         DocumentEntity element = documentService.findById(entity.getId());
-        Assertions.assertNotNull(element);
-        Assertions.assertNotEquals(element.getContentLength(), length);
+        assertThat(element)
+                .as("Updated document should not be null!")
+                .isNotNull();
+        assertThat(other.getContentLength())
+                .as(String.format("Document content length should be equal to: '%s'", element.getContentLength()))
+                .isEqualTo(element.getContentLength());
+    }
+
+    @Test
+    @DisplayName("Delete a document in the database") final void testDeleteDocumentInDatabase() throws DocumentContentException, DocumentException
+    {
+        // Generate a random document.
+        DocumentEntity entity = DocumentRandomizer.generatePersistent(false);
+        entity.setContent("./media/java-8-streams-cheat-sheet.pdf");
+        documentService.save(entity);
+
+        // Fetch the document back and delete it from the database.
+        DocumentEntity other = documentService.findById(entity.getId());
+        assertThat(other.getContent())
+                .as("Document content must not be null!")
+                .isNotNull();
+        documentService.deleteById(other.getId());
+
+        DocumentEntity element = documentService.findById(other.getId());
+        assertThat(element)
+                .as("Deleted document should be null!")
+                .isNull();
+    }
+
+    @Test
+    @DisplayName("Delete multiple documents in the database") final void testDeleteMultipleDocumentInDatabase() throws DocumentContentException, DocumentException
+    {
+        List<DocumentEntity> documents = new ArrayList<>();
+        List<String> uuids = new ArrayList<>();
+        DocumentEntity entity;
+
+        for (int i = 0; i < 100; i++)
+        {
+            entity = DocumentRandomizer.generatePersistent(false);
+            entity.setContent("./media/java-8-streams-cheat-sheet.pdf");
+            documentService.save(entity);
+            documents.add(entity);
+            uuids.add(entity.getContentId());
+        }
+
+        for (DocumentEntity element : documents)
+        {
+            documentService.deleteById(element.getId());
+        }
+
+        for (String uuid : uuids)
+        {
+            assertThat(documentStore.getResource(uuid).exists())
+                    .as(String.format("Resource with sid: '%s' should not exist anymore!", uuid))
+                    .isFalse();
+        }
     }
 }

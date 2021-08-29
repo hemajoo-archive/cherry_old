@@ -27,7 +27,7 @@ import java.io.File;
  * @version 1.0.0
  */
 @Configuration
-public class ContentStoreConfigurer
+public class DocumentStoreConfigurer
 {
     @Bean
     public FilesystemStoreConfigurer configurer()

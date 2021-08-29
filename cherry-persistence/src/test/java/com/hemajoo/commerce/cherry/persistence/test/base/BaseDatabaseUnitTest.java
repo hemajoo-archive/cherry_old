@@ -11,8 +11,9 @@
  */
 package com.hemajoo.commerce.cherry.persistence.test.base;
 
-import com.hemajoo.commerce.cherry.persistence.content.ContentStoreRepository;
 import com.hemajoo.commerce.cherry.persistence.content.DocumentRepository;
+import com.hemajoo.commerce.cherry.persistence.content.DocumentService;
+import com.hemajoo.commerce.cherry.persistence.content.DocumentStore;
 import lombok.Getter;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,23 +30,32 @@ import java.io.IOException;
  */
 public abstract class BaseDatabaseUnitTest extends BaseUnitTest
 {
+    /**
+     * Is the database initialized?
+     */
     protected static boolean IS_DATABASE_INITIALIZED = false;
 
-    @Getter
-    @Value("${hemajoo.commerce.cherry.store.location}")
-    private String baseContentStoreLocation;
-
     /**
-     * Document content store repository.
+     * Document persistence service.
      */
     @Autowired
-    private ContentStoreRepository contentRepository;
+    protected DocumentService documentService;
+
+    /**
+     * Document content store.
+     */
+    @Autowired
+    protected DocumentStore documentStore;
 
     /**
      * Document repository.
      */
     @Autowired
-    private DocumentRepository documentRepository;
+    protected DocumentRepository documentRepository;
+
+    @Getter
+    @Value("${hemajoo.commerce.cherry.store.location}")
+    protected String baseContentStoreLocation;
 
     /**
      * Database data source.

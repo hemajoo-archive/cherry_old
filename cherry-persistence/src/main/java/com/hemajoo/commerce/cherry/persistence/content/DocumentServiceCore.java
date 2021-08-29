@@ -16,7 +16,6 @@ import com.hemajoo.commerce.cherry.persistence.model.entity.document.DocumentEnt
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.InputStream;
 import java.util.List;
 import java.util.UUID;
 
@@ -38,7 +37,7 @@ public class DocumentServiceCore implements DocumentService
      * Content store repository.
      */
     @Autowired
-    private ContentStoreRepository contentStoreRepository;
+    private DocumentStore documentStore;
 
     @Override
     public Long count()
@@ -60,7 +59,7 @@ public class DocumentServiceCore implements DocumentService
         // Also save the associated content file if one.
         if (document.getContent() != null)
         {
-            contentStoreRepository.setContent(document, document.getContent());
+            documentStore.setContent(document, document.getContent());
         }
 
         return document;
@@ -74,7 +73,7 @@ public class DocumentServiceCore implements DocumentService
         // If a content file is associated, then delete it!
         if (document != null && document.getContentId() != null)
         {
-            contentStoreRepository.unsetContent(document);
+            documentStore.unsetContent(document);
         }
 
         documentRepository.deleteById(id);
@@ -90,7 +89,7 @@ public class DocumentServiceCore implements DocumentService
     @Override
     public void loadContent(DocumentEntity document) throws DocumentException
     {
-        document.setContent(contentStoreRepository.getContent(document));
+        document.setContent(documentStore.getContent(document));
     }
 
     @Override
