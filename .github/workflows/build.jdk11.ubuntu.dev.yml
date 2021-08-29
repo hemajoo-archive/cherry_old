@@ -32,9 +32,10 @@ jobs:
     #if: github.base.ref == 'refs/heads/dev' # Only when target branch is: 'dev'.
     if: github.event.pull_request.base.ref == 'dev'
     steps:
+      - uses: docker://nemerosa/h2:latest # Used for the unit tests
       - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+      with:
+        fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
 
       # Step: Setup JDK 11
       - name: Set up JDK 11
