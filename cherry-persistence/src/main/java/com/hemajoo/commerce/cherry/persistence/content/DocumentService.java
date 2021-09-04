@@ -1,0 +1,75 @@
+/*
+ * Copyright(c) 2021 Hemajoo Digital Systems Inc.
+ * --------------------------------------------------------------------------------------
+ * This file is part of Hemajoo Systems Inc. projects which is licensed
+ * under the Apache license version 2 and use is subject to license terms.
+ * You should have received a copy of the license with the project's artifact
+ * binaries and/or sources.
+ *
+ * License can be consulted at http://www.apache.org/licenses/LICENSE-2.0
+ * --------------------------------------------------------------------------------------
+ */
+package com.hemajoo.commerce.cherry.persistence.content;
+
+import com.hemajoo.commerce.cherry.model.entity.document.DocumentException;
+import com.hemajoo.commerce.cherry.persistence.model.entity.document.DocumentEntity;
+
+import java.util.List;
+import java.util.UUID;
+
+/**
+ * Document persistence service.
+ * @author <a href="mailto:christophe.resse@gmail.com">Christophe Resse</a>
+ * @version 1.0.0
+ */
+public interface DocumentService
+{
+    /**
+     * Returns the number of documents.
+     * @return Number of documents.
+     */
+    Long count();
+
+    /**
+     * Finds a document given its identifier.
+     * @param id Document identifier.
+     * @return Document if found, null otherwise.
+     * @throws DocumentException raised if the given document id has not been found!
+     */
+    DocumentEntity findById(UUID id) throws DocumentException;
+
+    /**
+     * Saves a document.
+     * @param document Document to save.
+     * @return Saved document.
+     * @throws DocumentException Raised if an error occurred while trying to save the document.
+     */
+    DocumentEntity save(DocumentEntity document) throws DocumentException;
+
+    /**
+     * Deletes a document given its identifier.
+     * @param id Document identifier.
+     * @throws DocumentException Raised if an error occurred while trying to delete the document.
+     */
+    void deleteById(UUID id) throws DocumentException;
+
+    /**
+     * Returns all the documents.
+     * @return List of documents.
+     */
+    List<DocumentEntity> findAll();
+
+    /**
+     * Loads the content (media file) of the document.
+     * @param document Document.
+     * @throws DocumentException Raised if an error occurred while trying to load the document.
+     */
+    void loadContent(DocumentEntity document) throws DocumentException;
+
+    /**
+     * Loads the content (media file) of the document.
+     * @param documentId Document identifier.
+     * @throws DocumentException Raised if an error occurred while trying to load the document.
+     */
+    void loadContent(UUID documentId) throws DocumentException;
+}

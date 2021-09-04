@@ -16,12 +16,10 @@ import com.hemajoo.commerce.cherry.commons.entity.IEntityIdentity;
 import com.hemajoo.commerce.cherry.commons.type.EntityType;
 import com.hemajoo.commerce.cherry.model.entity.document.Document;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -93,6 +91,16 @@ public class Base extends Status implements IEntityIdentity
     {
         return entityType;
     }
+
+    /**
+     * Adds a document to this entityDocumentEntity.
+     * @param document Document.
+     */
+    public final void addDocument(final @NonNull Document document)
+    {
+        documents.add(document);
+    }
+
     /**
      * Returns the documents associated with this entity.
      * @return List of documents.
@@ -104,8 +112,6 @@ public class Base extends Status implements IEntityIdentity
             return new ArrayList<>();
         }
 
-        return documents;
+        return Collections.unmodifiableList(documents);
     }
-
-
 }

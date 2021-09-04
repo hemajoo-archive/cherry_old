@@ -12,6 +12,7 @@
 package com.hemajoo.commerce.cherry.persistence.model.entity.document;
 
 import com.hemajoo.commerce.cherry.model.entity.document.Document;
+import com.hemajoo.commerce.cherry.model.entity.document.DocumentContentException;
 import com.hemajoo.commerce.cherry.model.entity.document.DocumentType;
 import com.hemajoo.commerce.cherry.persistence.base.randomizer.BaseEntityRandomizer;
 import lombok.experimental.UtilityClass;
@@ -35,19 +36,27 @@ public final class DocumentRandomizer extends BaseEntityRandomizer
 
     /**
      * Generates a new random persistent document.
+     * @param withRandomId Do we need to generate a random identifier? False by default.
      * @return Random document.
+     * @throws DocumentContentException Raised in case an error occurred while trying to set the document content (media file)!
      */
-    public static DocumentEntity generatePersistent()
+    public static DocumentEntity generatePersistent(final boolean withRandomId) throws DocumentContentException
     {
         var entity = new DocumentEntity();
         BaseEntityRandomizer.populateBaseFields(entity);
 
+        if (withRandomId)
+        {
+            entity.setId(UUID.randomUUID());
+        }
+
         entity.setName(FAKER.name().title());
-        entity.setContentPath(FAKER.funnyName().name());
-        entity.setExtension(FAKER.file().extension());
-        entity.setContentId(UUID.randomUUID().toString());
-        entity.setContentLength(new Random().nextLong());
-        entity.setMimeType(FAKER.file().mimeType());
+        entity.setContent("./media/android-10.jpg");
+//        entity.setContentPath(FAKER.funnyName().name());
+//        entity.setExtension(FAKER.file().extension());
+//        entity.setContentId(UUID.randomUUID().toString());
+//        entity.setContentLength(new Random().nextLong());
+//        entity.setMimeType(FAKER.file().mimeType());
         entity.setTags(FAKER.elderScrolls().creature());
         entity.setDocumentType((DocumentType) DOCUMENT_TYPE_GENERATOR.gen());
 
@@ -56,19 +65,27 @@ public final class DocumentRandomizer extends BaseEntityRandomizer
 
     /**
      * Generates a new random client document.
+     * @param withRandomId Do we need to generate a random identifier? False by default.
      * @return Random document.
+     * @throws DocumentContentException Raised in case an error occurred while trying to set the document content (media file)!
      */
-    public static Document generateClient()
+    public static Document generateClient(final boolean withRandomId) throws DocumentContentException
     {
         var entity = new Document();
         BaseEntityRandomizer.populateBaseFields(entity);
 
+        if (withRandomId)
+        {
+            entity.setId(UUID.randomUUID());
+        }
+
         entity.setName(FAKER.name().title());
-        entity.setContentPath(FAKER.funnyName().name());
-        entity.setExtension(FAKER.file().extension());
-        entity.setContentId(UUID.randomUUID().toString());
-        entity.setContentLength(new Random().nextLong());
-        entity.setMimeType(FAKER.file().mimeType());
+        entity.setContent("./media/android-10.jpg");
+//        entity.setContentPath(FAKER.funnyName().name());
+//        entity.setExtension(FAKER.file().extension());
+//        entity.setContentId(UUID.randomUUID().toString());
+//        entity.setContentLength(new Random().nextLong());
+//        entity.setMimeType(FAKER.file().mimeType());
         entity.setTags(FAKER.elderScrolls().creature());
         entity.setDocumentType((DocumentType) DOCUMENT_TYPE_GENERATOR.gen());
 

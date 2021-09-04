@@ -12,14 +12,17 @@
 
     <artifactId>cherry-persistence</artifactId>
 
-    <name>cherry-persistence</name>
-    <description>Cherry persistence module.</description>
+    <name>Cherry - Persistence</name>
+    <description>Module providing the persistence layer.</description>
 
     <properties>
+        <db.h2.test.port>9092</db.h2.test.port>
         <flyway.user>sa</flyway.user>
         <flyway.password></flyway.password>
-        <flyway.schemas>TEST</flyway.schemas>
-        <flyway.url>jdbc:h2:file:./target/cherry;DB_CLOSE_ON_EXIT=FALSE</flyway.url>
+        <flyway.schemas></flyway.schemas>
+        <flyway.url>jdbc:h2:tcp://localhost:9092/cherry;DB_CLOSE_ON_EXIT=FALSE</flyway.url>
+        <!--        <flyway.locations>filesystem:./cherry-persistence/src/main/resources/db/migration/h2</flyway.locations>-->
+        <!--        <flyway.url>jdbc:h2:file:./target/cherry;DB_CLOSE_ON_EXIT=FALSE</flyway.url>-->
         <flyway.locations>classpath:/db/migration/h2</flyway.locations>
     </properties>
 
@@ -130,6 +133,7 @@
             <artifactId>avocado-core</artifactId>
         </dependency>
 
+        <!-- Tika -->
         <dependency>
             <groupId>com.github.lafa.tikaNoExternal</groupId>
             <artifactId>tika-core</artifactId>
@@ -138,16 +142,17 @@
     </dependencies>
 
     <build>
+
         <plugins>
+
             <plugin>
                 <groupId>org.flywaydb</groupId>
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>${version.maven.plugin.flyway}</version>
                 <executions>
                     <execution>
-                        <id>flyway-test</id>
-                        <!-- Ensure the 'TEST' schema is created before launching the tests. -->
-                        <phase>generate-test-resources</phase>
+                        <id>test-flyway-prepare-db</id>
+                        <phase>integration-test</phase>
                         <goals>
                             <goal>migrate</goal>
                         </goals>
@@ -172,29 +177,107 @@
                     <locations>${flyway.locations}</locations>
                 </configuration>
             </plugin>
-<!--            <plugin>-->
-<!--                <groupId>org.jacoco</groupId>-->
-<!--                <artifactId>jacoco-maven-plugin</artifactId>-->
-<!--                <version>${version.maven.plugin.jacoco}</version>-->
-<!--                <executions>-->
-<!--                    &lt;!&ndash; to avoid bugs in some situations &ndash;&gt;-->
-<!--                    <execution>-->
-<!--                        <id>prepare-agent</id>-->
-<!--                        <goals>-->
-<!--                            <goal>prepare-agent</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                    &lt;!&ndash; create report during maven verify phase &ndash;&gt;-->
-<!--                    <execution>-->
-<!--                        <id>report</id>-->
-<!--                        <phase>verify</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>report</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
+
+            <!-- SUREFIRE: The Surefire Plugin is used during the test phase of the build lifecycle to execute the unit tests of an application. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${version.maven.plugin.surefire}</version>
+                <configuration>
+                    <skipTests>false</skipTests>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>integration-test-h2</id> <!-- Integration tests for H2  -->
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <configuration>
+                            <skipTests>false</skipTests>
+                            <!-- Include all integration test classes, the ones starting with: IntegrationTest* -->
+                            <includes>
+                                <include>**/IntegrationTest*.java</include>
+                            </includes>
+                            <!-- Exclude all unit test classes, the ones starting with: UnitTest* -->
+                            <excludes>
+                                <exclude>**/UnitTest*.java</exclude>
+                            </excludes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.37.0</version>
+
+                <!-- Build an h2 Docker image for the integration tests. -->
+                <configuration>
+                    <images>
+                        <image>
+                            <name>nemerosa/h2:latest</name>
+                            <alias>h2-test</alias>
+                            <run>
+                                <env>
+                                    <name>nemerosa-test-h2</name>
+                                </env>
+                                <ports>
+                                    <port>${db.h2.test.port}:9082</port>
+                                </ports>
+                                <wait>
+                                    <time>1000</time>
+                                </wait>
+                            </run>
+                        </image>
+                    </images>
+                </configuration>
+
+                <executions>
+                    <execution>
+                        <id>docker-h2-start-container</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>build</goal>
+                            <goal>start</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>docker-h2-stop-container</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
+
+            </plugin>
+
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <!--Sonar analysis executed only if profile 'sonar' is active -->
+            <id>sonar</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.sonarsource.scanner.maven</groupId>
+                        <artifactId>sonar-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sonar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>

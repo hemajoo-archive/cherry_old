@@ -9,7 +9,7 @@
  * License can be consulted at http://www.apache.org/licenses/LICENSE-2.0
  * --------------------------------------------------------------------------------------
  */
-package com.hemajoo.commerce.cherry.persistence.test.base;
+package com.hemajoo.commerce.cherry.persistence.test.unit.base;
 
 import com.hemajoo.commerce.cherry.model.entity.base.Base;
 import com.hemajoo.commerce.cherry.persistence.model.entity.base.BaseEntity;
@@ -22,7 +22,7 @@ import org.ressec.avocado.core.junit.BaseUnitTest;
  * @author <a href="mailto:christophe.resse@gmail.com">Christophe Resse</a>
  * @version 1.0.0
  */
-public abstract class BaseMapperUnitTest extends BaseUnitTest
+public abstract class BaseMapperTest extends BaseUnitTest
 {
     /**
      * Checks equality of base fields.

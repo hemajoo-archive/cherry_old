@@ -12,8 +12,8 @@
 
     <artifactId>cherry-model</artifactId>
 
-    <name>cherry-model</name>
-    <description>Cherry - Data model.</description>
+    <name>Cherry - Model</name>
+    <description>Module providing the shared Cherry data model.</description>
 
     <dependencies>
 
@@ -40,6 +40,12 @@
         <dependency>
             <groupId>org.ressec.avocado</groupId>
             <artifactId>avocado-core</artifactId>
+        </dependency>
+
+        <!-- Tika -->
+        <dependency>
+            <groupId>com.github.lafa.tikaNoExternal</groupId>
+            <artifactId>tika-core</artifactId>
         </dependency>
 
     </dependencies>
@@ -70,5 +76,28 @@
 <!--            </plugin>-->
 <!--        </plugins>-->
 <!--    </build>-->
+
+    <profiles>
+        <profile>
+            <!--Sonar analysis executed only if profile 'sonar' is active -->
+            <id>sonar</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.sonarsource.scanner.maven</groupId>
+                        <artifactId>sonar-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sonar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>

@@ -15,9 +15,11 @@
 package com.hemajoo.commerce.cherry.persistence.model.entity.document;
 
 import com.hemajoo.commerce.cherry.model.entity.document.Document;
+import com.hemajoo.commerce.cherry.model.entity.document.DocumentException;
 import com.hemajoo.commerce.cherry.persistence.base.mapper.CycleAvoidingMappingContext;
 import org.mapstruct.Context;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
@@ -58,6 +60,7 @@ public interface DocumentMapper
      * @param context Context object.
      * @return Converted persistent entity.
      */
+    @Mapping(target = "content", ignore = true)
     DocumentEntity fromClient(Document entity, @Context CycleAvoidingMappingContext context);
 
     /**
@@ -73,8 +76,9 @@ public interface DocumentMapper
      * @param entity Persistent entity to copy.
      * @param context Context object.
      * @return Copy of the persistent entity.
+     * @throws DocumentException raised if the given document cannot be copied!
      */
-    DocumentEntity copy(DocumentEntity entity, @Context CycleAvoidingMappingContext context);
+    DocumentEntity copy(DocumentEntity entity, @Context CycleAvoidingMappingContext context) throws DocumentException;
 
     /**
      * Returns a deep copy of a client entity.
