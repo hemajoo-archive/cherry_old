@@ -9,7 +9,7 @@
  * License can be consulted at http://www.apache.org/licenses/LICENSE-2.0
  * --------------------------------------------------------------------------------------
  */
-package com.hemajoo.commerce.cherry.persistence.test.model.entity.document;
+package com.hemajoo.commerce.cherry.persistence.test.unit.model.entity.document;
 
 import com.hemajoo.commerce.cherry.model.entity.document.Document;
 import com.hemajoo.commerce.cherry.model.entity.document.DocumentContentException;
@@ -18,7 +18,7 @@ import com.hemajoo.commerce.cherry.persistence.base.mapper.CycleAvoidingMappingC
 import com.hemajoo.commerce.cherry.persistence.model.entity.document.DocumentEntity;
 import com.hemajoo.commerce.cherry.persistence.model.entity.document.DocumentMapper;
 import com.hemajoo.commerce.cherry.persistence.model.entity.document.DocumentRandomizer;
-import com.hemajoo.commerce.cherry.persistence.test.base.BaseMapperUnitTest;
+import com.hemajoo.commerce.cherry.persistence.test.unit.base.BaseMapperTest;
 import lombok.NonNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,7 +34,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author <a href="mailto:christophe.resse@gmail.com">Christophe Resse</a>
  * @version 1.0.0
  */
-class TestDocumentMapper extends BaseMapperUnitTest
+class UnitTestDocumentMapper extends BaseMapperTest
 {
     /**
      * List element count.
@@ -42,8 +42,7 @@ class TestDocumentMapper extends BaseMapperUnitTest
     private final int LIST_COUNT = 10;
 
     @Test
-    @DisplayName("Map a persistent document to a client document")
-    final void testMapPersistentDocumentToClientDocument() throws DocumentContentException
+    @DisplayName("Map a persistent document to a client document") final void testMapPersistentDocumentToClientDocument() throws DocumentContentException
     {
         DocumentEntity persistent = DocumentRandomizer.generatePersistent(true);
         Document client = DocumentMapper.INSTANCE.fromPersistent(persistent, new CycleAvoidingMappingContext());

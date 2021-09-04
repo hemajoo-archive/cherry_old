@@ -9,24 +9,24 @@
  * License can be consulted at http://www.apache.org/licenses/LICENSE-2.0
  * --------------------------------------------------------------------------------------
  */
-package com.hemajoo.commerce.cherry.persistence.test.configuration;
+package com.hemajoo.commerce.cherry.persistence.test.integration;
 
-import org.springframework.context.annotation.Profile;
-import org.springframework.data.domain.AuditorAware;
-
-import java.util.Optional;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * Provides a {@code JPA} auditor information for the test environment.
+ * {@code Spring} test {@code Cherry} application.
  * @author <a href="mailto:christophe.resse@gmail.com">Christophe Resse</a>
  * @version 1.0.0
  */
-@Profile("test")
-public class TestJpaAuditor implements AuditorAware<String>
+@SpringBootApplication
+public class SpringCherryForIntegrationTest
 {
-    @Override
-    public Optional<String> getCurrentAuditor()
+    // This class is not intended to be started directly!
+    // It is used by the test classes to get a Spring environment.
+
+    public static void main(String[] args)
     {
-        return Optional.of("Test");
+        SpringApplication.run(SpringCherryForIntegrationTest.class, args);
     }
 }

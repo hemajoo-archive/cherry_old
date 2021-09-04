@@ -76,6 +76,7 @@ public interface DocumentMapper
      * @param entity Persistent entity to copy.
      * @param context Context object.
      * @return Copy of the persistent entity.
+     * @throws DocumentException raised if the given document cannot be copied!
      */
     DocumentEntity copy(DocumentEntity entity, @Context CycleAvoidingMappingContext context) throws DocumentException;
 

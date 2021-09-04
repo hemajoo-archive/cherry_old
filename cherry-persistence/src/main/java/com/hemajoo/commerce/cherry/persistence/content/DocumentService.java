@@ -34,6 +34,7 @@ public interface DocumentService
      * Finds a document given its identifier.
      * @param id Document identifier.
      * @return Document if found, null otherwise.
+     * @throws DocumentException raised if the given document id has not been found!
      */
     DocumentEntity findById(UUID id) throws DocumentException;
 

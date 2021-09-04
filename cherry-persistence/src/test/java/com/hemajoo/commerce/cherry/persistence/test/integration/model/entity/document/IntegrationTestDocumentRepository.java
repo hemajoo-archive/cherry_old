@@ -9,15 +9,15 @@
  * License can be consulted at http://www.apache.org/licenses/LICENSE-2.0
  * --------------------------------------------------------------------------------------
  */
-package com.hemajoo.commerce.cherry.persistence.test.model.entity.document;
+package com.hemajoo.commerce.cherry.persistence.test.integration.model.entity.document;
 
 import com.hemajoo.commerce.cherry.model.entity.document.DocumentContentException;
 import com.hemajoo.commerce.cherry.model.entity.document.DocumentException;
+import com.hemajoo.commerce.cherry.persistence.base.test.BaseDatabaseUnitTest;
 import com.hemajoo.commerce.cherry.persistence.model.entity.document.DocumentEntity;
 import com.hemajoo.commerce.cherry.persistence.model.entity.document.DocumentRandomizer;
-import com.hemajoo.commerce.cherry.persistence.test.SpringTestCherry;
-import com.hemajoo.commerce.cherry.persistence.test.base.BaseDatabaseUnitTest;
-import com.hemajoo.commerce.cherry.persistence.test.configuration.TestPersistenceConfiguration;
+import com.hemajoo.commerce.cherry.persistence.test.integration.SpringCherryForIntegrationTest;
+import com.hemajoo.commerce.cherry.persistence.test.integration.configuration.PersistenceConfigurationForIntegrationTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,18 +39,17 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author <a href="mailto:christophe.resse@gmail.com">Christophe Resse</a>
  * @version 1.0.0
  */
-@SpringBootTest(classes = SpringTestCherry.class)
+@SpringBootTest(classes = SpringCherryForIntegrationTest.class)
 @ActiveProfiles("test") // Will search for: application-test.properties
 @ExtendWith(SpringExtension.class)
-@Import(value = { TestPersistenceConfiguration.class })
+@Import(value = {PersistenceConfigurationForIntegrationTest.class})
 @Transactional
 @Commit // Change default behavior for Spring Test which is normally to rollback transaction at the end of the test!
 @DisplayName("Test handle document entity in database")
-class TestDocumentRepository extends BaseDatabaseUnitTest
+class IntegrationTestDocumentRepository extends BaseDatabaseUnitTest
 {
     @Test
-    @DisplayName("Create a document (without content) in the database")
-    final void testCreateDocumentWithoutContentInDatabase() throws DocumentContentException, DocumentException
+    @DisplayName("Create a document (without content) in the database") final void testCreateDocumentWithoutContentInDatabase() throws DocumentContentException, DocumentException
     {
         // Generate a random document.
         DocumentEntity entity = DocumentRandomizer.generatePersistent(false);

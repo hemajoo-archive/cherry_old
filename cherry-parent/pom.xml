@@ -260,7 +260,9 @@
     </dependencyManagement>
 
     <build>
+
         <plugins>
+
             <!-- JAR: Compile the sources. -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -391,36 +393,28 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <id>unit-tests</id>
+                        <id>default-test</id>
                         <phase>test</phase>
                         <goals>
                             <goal>test</goal>
                         </goals>
                         <configuration>
                             <skipTests>false</skipTests>
+                            <!-- All unit tests classes should start by: UnitTest* -->
                             <includes>
-                                <include>**/*Test.java</include>
+                                <include>**/UnitTest*.java</include>
                             </includes>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>integration-tests</id>
-                        <phase>integration-test</phase>
-                        <goals>
-                            <goal>test</goal>
-                        </goals>
-                        <configuration>
-                            <skipTests>false</skipTests>
-                            <includes>
-                                <include>**/*IT.*</include>
-                                <include>**/*Tests.*</include>
-                            </includes>
+                            <!-- All integration test classes should start by: IntegrationTest* -->
+                            <excludes>
+                                <exclude>**/IntegrationTest*.java</exclude>
+                            </excludes>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
 
         </plugins>
+
     </build>
 
     <modules>
@@ -447,6 +441,7 @@
                     <plugin>
                         <groupId>org.jacoco</groupId>
                         <artifactId>jacoco-maven-plugin</artifactId>
+                        <version>0.8.7</version>
                         <executions>
                             <execution>
                                 <id>prepare-agent</id>

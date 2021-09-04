@@ -9,7 +9,7 @@
  * License can be consulted at http://www.apache.org/licenses/LICENSE-2.0
  * --------------------------------------------------------------------------------------
  */
-package com.hemajoo.commerce.cherry.persistence.test.base;
+package com.hemajoo.commerce.cherry.persistence.base.test;
 
 import com.hemajoo.commerce.cherry.persistence.content.DocumentRepository;
 import com.hemajoo.commerce.cherry.persistence.content.DocumentService;

@@ -59,13 +59,6 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
-      # Step: Install H2
-      - name: Install H2
-        uses: addnab/docker-run-action@v3
-        with:
-          image: nemerosa/h2:latest
-          ports: 9092:9082
-
       # Step: Maven Clean & Package
       - name: Package with Maven
         run: mvn -B clean package -f cherry-parent/pom.xml

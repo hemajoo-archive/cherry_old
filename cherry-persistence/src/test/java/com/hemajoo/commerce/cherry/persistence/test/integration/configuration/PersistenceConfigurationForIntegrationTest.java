@@ -1,18 +1,15 @@
 /*
- * (C) Copyright Hemajoo Systems Inc. 2021 - All Rights Reserved
- * -----------------------------------------------------------------------------------------------
- * All information contained herein is, and remains the property of
- * Hemajoo Inc. and its suppliers, if any. The intellectual and technical
- * concepts contained herein are proprietary to Hemajoo Inc. and its
- * suppliers and may be covered by U.S. and Foreign Patents, patents
- * in process, and are protected by trade secret or copyright law.
+ * Copyright(c) 2021 Hemajoo Digital Systems Inc.
+ * --------------------------------------------------------------------------------------
+ * This file is part of Hemajoo Systems Inc. projects which is licensed
+ * under the Apache license version 2 and use is subject to license terms.
+ * You should have received a copy of the license with the project's artifact
+ * binaries and/or sources.
  *
- * Dissemination of this information or reproduction of this material
- * is strictly forbidden unless prior written permission is obtained from
- * Hemajoo Systems Inc.
- * -----------------------------------------------------------------------------------------------
+ * License can be consulted at http://www.apache.org/licenses/LICENSE-2.0
+ * --------------------------------------------------------------------------------------
  */
-package com.hemajoo.commerce.cherry.persistence.test.configuration;
+package com.hemajoo.commerce.cherry.persistence.test.integration.configuration;
 
 import com.hemajoo.commerce.cherry.commons.exception.ContentStoreException;
 import lombok.Getter;
@@ -44,7 +41,7 @@ import java.util.Objects;
 @EntityScan(basePackages = "com.hemajoo.commerce.cherry.persistence.*")
 @EnableFilesystemStores(basePackages = "com.hemajoo.commerce.cherry.persistence.*")
 @EnableJpaAuditing(auditorAwareRef = "auditorProvider")
-public class TestPersistenceConfiguration
+public class PersistenceConfigurationForIntegrationTest
 {
     @Getter
     @Value("${hemajoo.commerce.cherry.store.location}")
@@ -53,7 +50,7 @@ public class TestPersistenceConfiguration
     @Bean
     public AuditorAware<String> auditorProvider()
     {
-        return new TestJpaAuditor();
+        return new JpaAuditorForIntegrationTest();
     }
 
     /**
