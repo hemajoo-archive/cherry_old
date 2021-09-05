@@ -34,6 +34,11 @@ public enum EntityType
     DOCUMENT,
 
     /**
+     * Document content type.
+     */
+    DOCUMENT_CONTENT,
+
+    /**
      * Person entity type.
      */
     PERSON,

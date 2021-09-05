@@ -19,9 +19,7 @@ import lombok.*;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Represents the base part of a persistence entity of the {@code Cherry} data model.
@@ -128,6 +126,7 @@ public class BaseEntity extends StatusEntity implements IEntityIdentity
             return new ArrayList<>();
         }
 
+        //return Collections.unmodifiableList(documents);
         return documents;
     }
 }
