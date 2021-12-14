@@ -68,7 +68,7 @@
         <version.junit>5.8.0-M1</version.junit>
         <version.junit.engine.jupiter>5.4.0</version.junit.engine.jupiter>
         <version.javafaker>1.0.1</version.javafaker>
-        <version.apache.log4j>2.13.2</version.apache.log4j>
+        <version.apache.log4j>2.16.0</version.apache.log4j>
         <version.apache.commons.lang.3>3.9</version.apache.commons.lang.3>
         <version.apache.commons.io>2.11.0</version.apache.commons.io>
         <version.lombok>1.18.20</version.lombok>
