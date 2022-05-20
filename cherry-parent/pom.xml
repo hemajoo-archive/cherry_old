@@ -62,7 +62,7 @@
         <version.ressec.avocado>0.1.0-SNAPSHOT</version.ressec.avocado>
         <version.spring.boot>2.4.5</version.spring.boot>
         <version.swagger>3.0.0</version.swagger>
-        <version.google.gson>2.8.6</version.google.gson>
+        <version.google.gson>2.8.9</version.google.gson>
         <version.gson-fire>1.8.4</version.gson-fire>
         <version.google.guava>30.0-jre</version.google.guava>
         <version.junit>5.8.0-M1</version.junit>
