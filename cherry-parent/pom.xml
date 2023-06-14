@@ -64,7 +64,7 @@
         <version.swagger>3.0.0</version.swagger>
         <version.google.gson>2.8.6</version.google.gson>
         <version.gson-fire>1.8.4</version.gson-fire>
-        <version.google.guava>30.0-jre</version.google.guava>
+        <version.google.guava>32.0.0-jre</version.google.guava>
         <version.junit>5.8.0-M1</version.junit>
         <version.junit.engine.jupiter>5.4.0</version.junit.engine.jupiter>
         <version.javafaker>1.0.1</version.javafaker>
